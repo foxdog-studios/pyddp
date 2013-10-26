@@ -1,0 +1,37 @@
+pyddp
+=====
+
+A Python 3 distributed data protocol (DDP) client.
+
+
+Setup
+-----
+
+Arch Linux users can run
+
+    # ./scripts/setup/arch.sh
+
+
+Get started
+-----------
+
+`cd` to the root of the repository and start the Meteor test project.
+
+    # cd path/to/pyddp
+    # ./scripts/mrt.sh
+
+Start a Python 3 interpreter.
+
+    # . env/bin/activate
+    # PYTHONPATH=src python
+
+Now, create a DDP client and invoke the `echo` method on the server.
+
+    >>> from ddp.client import DdpClient
+    >>> client = DdpClient('127.0.0.1:3000')
+    >>> client.connect()
+    [{'server_id': '7jhPWfm9L2Bvwkqoe'}, {'msg': 'connected', 'session': 'sj7iFnzRJR3zojogE'}]
+    >>> client.method('echo', ['Hello, World!'])
+    {'msg': 'result', 'result': 'Hello, World!', 'id': '0'}
+    >>> client.disconnect()
+

@@ -51,7 +51,7 @@ class Future:
         Get the result.
 
         This blocks util the result is set. If `timeout` is given,
-        this will block for at most `timeout` milliseconds.
+        this will block for at most `timeout` seconds.
         '''
         while not self._is_set:
             self._cond.wait(timeout=timeout())
