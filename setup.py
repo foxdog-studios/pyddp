@@ -21,6 +21,6 @@ from distutils.core import setup
 setup(
     name='pyddp',
     package_dir={'': 'src'},
-    packages=['ddp'],
+    packages=['ddp', 'ddp.messages'],
 )
 
