@@ -1,3 +1,7 @@
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+
 from functools import wraps
 from threading import Condition
 
@@ -12,14 +16,14 @@ def with_condition(method):
     return wrapper
 
 
-class Future:
+class Future(object):
     def __init__(self):
         self._callbacks = []
         self._cond = Condition()
         self._is_set = False
         self._result = None
 
-    def __bool__(self):
+    def __nonzero__(self):
         return self.is_set()
 
     def _call_callback(self):
@@ -72,11 +76,11 @@ class Future:
         self._cond.notify_all()
 
 
-class CompositeFuture():
+class CompositeFuture(object):
     def __init__(self, futures):
         self._futures = futures
 
-    def __bool__(self):
+    def __nonzero__(self):
         return self.is_set()
 
     def __len__(self):

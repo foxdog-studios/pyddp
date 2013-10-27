@@ -1,5 +1,5 @@
 from itertools import count
-from urllib.parse import urlunparse
+from urlparse import urlunparse
 import json
 import threading
 import time
@@ -13,7 +13,7 @@ from ddp.websocket import StrategyWebSocketClient
 DDP_VERSIONS = ['pre1']
 
 
-class DdpClient:
+class DdpClient(object):
     SCHEME = 'ws'
     URL = '/websocket'
 

@@ -1,7 +1,7 @@
 pyddp
 =====
 
-A Python 3 distributed data protocol (DDP) client.
+A Python 2 distributed data protocol (DDP) client.
 
 
 Setup
@@ -20,7 +20,7 @@ Get started
     # cd path/to/pyddp
     # ./scripts/mrt.sh
 
-Start a Python 3 interpreter.
+Start a Python interpreter.
 
     # . env/bin/activate
     # PYTHONPATH=src python

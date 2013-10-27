@@ -22,9 +22,9 @@ def wrap_timeout(method):
     def wrapper(future, *args, **kwargs):
         to = kwargs.get('timeout', None)
         if to is None:
-            to = infinite_timeout().__next__
+            to = infinite_timeout().next
         elif isinstance(to, Number):
-            to = timeout(to).__next__
+            to = timeout(to).next
         kwargs['timeout'] = to
         return method(future, *args, **kwargs)
     return wrapper

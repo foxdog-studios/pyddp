@@ -1,3 +1,7 @@
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+
 import threading
 import unittest
 
@@ -9,14 +13,13 @@ from ddp.messages import *
 class FuturTestCase(unittest.TestCase):
     def test_callback(self):
         f1 = Future()
-        callback_arg = None
+        callback_arg = [None]
         def callback(result):
-            nonlocal callback_arg
-            callback_arg = result
+            callback_arg[0] = result
         f1.add_callback(callback)
         result = 'Hello, World!'
         f1.set(result)
-        self.assertEqual(callback_arg, result)
+        self.assertEqual(callback_arg[0], result)
 
     def test_composite_get(self):
         f1 = Future()

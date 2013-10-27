@@ -14,11 +14,11 @@ python_packages=(
     'ws4py==0.3.2'
 )
 
-python_version=3.3
+python_version=2.7
 
 system_packages=(
     'git'
-    'python-virtualenv'
+    'python2-virtualenv'
 )
 
 
@@ -41,7 +41,7 @@ install_python_packages() {
 _install_python_packages() {
     local package
     for package in "${python_packages[@]}"; do
-        pip install "$package"
+        pip install "${package}"
     done
 }
 
