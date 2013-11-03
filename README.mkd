@@ -9,9 +9,9 @@ Setup
 
 Arch Linux users can run
 
-'''Shell
-# ./scripts/setup/arch.sh
-'''
+```Shell
+./scripts/setup/arch.sh
+```
 
 
 Get started
@@ -19,21 +19,21 @@ Get started
 
 `cd` to the root of the repository and start the Meteor test project.
 
-'''Shell
-# cd path/to/pyddp
-# ./scripts/mrt.sh
-'''
+```Shell
+cd path/to/pyddp
+./scripts/mrt.sh
+```
 
 Start a Python interpreter.
 
-'''Shell
-# . env/bin/activate
-# PYTHONPATH=src python
-'''
+```Shell
+. env/bin/activate
+PYTHONPATH=src python
+```
 
 Now, create a DDP client and invoke the `echo` method on the server.
 
-'''Python
+```Python
 >>> from ddp.client import DdpClient
 >>> client = DdpClient('127.0.0.1:3000')
 >>> client.connect()
@@ -41,5 +41,5 @@ Now, create a DDP client and invoke the `echo` method on the server.
 >>> client.method('echo', ['Hello, World!'])
 {'msg': 'result', 'result': 'Hello, World!', 'id': '0'}
 >>> client.disconnect()
-'''
+```
 
