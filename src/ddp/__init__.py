@@ -1368,7 +1368,8 @@ class DdpConnection(object):
 
     def _closed(self, code, reason=None):
         self._is_connected = False
-        self._disconnected_callback(code, reason)
+        if exists(self._disconnected_callback):
+            self._disconnected_callback(code, reason)
 
     def connect(self):
         self._socket.connect()
