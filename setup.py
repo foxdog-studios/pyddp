@@ -34,6 +34,7 @@ setup(
         '': ['LICENSE.txt']
     },
     install_requires=['ws4py'],
+    test_suite='ddp.tests',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Environment :: Web Environment',
