@@ -121,6 +121,10 @@ class ServerMessagesTestCase(AbstractMessageTestCase):
         msg2 = ResultMessage('id', result='result')
         self.check_round_trip(msg2)
 
+        # Happens when a method does not return anything.
+        msg3 = ResultMessage('id', result=None)
+        self.check_round_trip(msg3)
+
     def test_updated(self):
         msg = UpdatedMessage(['method1', 'method2', 'method3'])
         self.check_round_trip(msg)

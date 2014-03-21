@@ -601,8 +601,14 @@ class RemovedMessage(ServerMessage):
 class ResultMessage(ServerMessage):
     def __init__(self, id_, error=None, result=None):
         super(ResultMessage, self).__init__()
-        if nexists([error, result]) != 1:
-            raise ValueError('either error or result must be given')
+
+        # The spec says that either error or result must be given. But, the
+        # given result could be None (e.g., the methods does not return
+        # anything). So, the only meaningful check is that if error exists
+        # then result must not exist.
+        if exists(error) and exists(result):
+            raise ValueError('error and result cannot both be given')
+
         self._id = id_
         self._error = error
         self._result = result
@@ -1363,7 +1369,7 @@ class DdpConnection(object):
             for message in self._pending:
                 self._send(message)
             self._pending = []
-        else:
+        elif exists(self._received_message_callback):
             self._received_message_callback(message)
 
     def _closed(self, code, reason=None):
