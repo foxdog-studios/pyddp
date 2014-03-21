@@ -1,6 +1,6 @@
+*.egg
 *.pyc
 /build/
 /dist/
+/local/
 /pyddp.egg-info/
-/venv/
-*.egg
