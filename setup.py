@@ -23,7 +23,7 @@ from setuptools import setup
 
 setup(
     name='pyddp',
-    version='0.0.3',
+    version='0.1.0',
     description='Distributed Data Protocol (DDP)',
     author='Peter Sutton',
     author_email='foxxy@foxdogstudios.com',
@@ -36,7 +36,7 @@ setup(
     install_requires=['ws4py'],
     test_suite='ddp.tests',
     classifiers=[
-        'Development Status :: 2 - Pre-Alpha',
+        'Development Status :: 1 - Planning',
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: Apache Software License',

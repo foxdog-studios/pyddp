@@ -57,6 +57,14 @@ class ClientMessagesTestCase(AbstractMessageTestCase):
         msg = MethodMessage('id', 'method', ['arg1', 'arg2', 'arg3'])
         self.check_round_trip(msg)
 
+    def test_ping(self):
+        msg = PingMessage(id_='id')
+        self.check_round_trip(msg)
+
+    def test_pong(self):
+        msg = PongMessage(id_='id')
+        self.check_round_trip(msg)
+
     def test_sub(self):
         msg = SubMessage('id', 'name', params=['arg1', 'arg2', 'arg3'])
         self.check_round_trip(msg)
@@ -101,6 +109,14 @@ class ServerMessagesTestCase(AbstractMessageTestCase):
 
     def test_moved_before(self):
         msg = MovedBeforeMessage('collection', 'id', 'id_before')
+        self.check_round_trip(msg)
+
+    def test_ping(self):
+        msg = PingMessage(id_='id')
+        self.check_round_trip(msg)
+
+    def test_pong(self):
+        msg = PongMessage(id_='id')
         self.check_round_trip(msg)
 
     def test_nosub(self):

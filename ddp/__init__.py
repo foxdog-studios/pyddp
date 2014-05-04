@@ -32,6 +32,60 @@ class Message(object):
     pass
 
 
+class PingMessage(Message):
+    def __init__(self, id_=None):
+        super(PingMessage, self).__init__()
+        self._id = id_
+
+    def __eq__(self, other):
+        return self._id == other._id
+
+    def __ne__(self, other):
+        return not self == other
+
+    def __repr__(self):
+        return str(self)
+
+    def __str__(self):
+        return 'PingMessage(id_={!r})'.format(self._id)
+
+    def has_id(self):
+        return self._id is not None
+
+    @property
+    def id_(self):
+        if not self.has_id():
+            raise AttributeError('ping message has not `id_` field')
+        return self._id
+
+
+class PongMessage(Message):
+    def __init__(self, id_=None):
+        super(PongMessage, self).__init__()
+        self._id = id_
+
+    def __eq__(self, other):
+        return self._id == other._id
+
+    def __ne__(self, other):
+        return not self == other
+
+    def __repr__(self):
+        return str(self)
+
+    def __str__(self):
+        return 'PongMessage(id_={!r})'.format(self._id)
+
+    def has_id(self):
+        return self._id is not None
+
+    @property
+    def id_(self):
+        if not self.has_id():
+            raise AttributeError('pong message has not `id_` field')
+        return self._id
+
+
 # = Client messages ===========================================================
 
 class ClientMessage(Message):
@@ -107,7 +161,7 @@ class ConnectMessage(ClientMessage):
 
 class MethodMessage(ClientMessage):
     def __init__(self, id_, method, params):
-        super(ClientMessage, self).__init__()
+        super(MethodMessage, self).__init__()
         self._id = id_
         self._method = method
         self._params = copy(params)
@@ -685,6 +739,9 @@ class UpdatedMessage(ServerMessage):
 # = Message constants                                                         =
 # =============================================================================
 
+MSG_PING = 'ping'
+MSG_PONG = 'pong'
+
 # Client
 MSG_CONNECT = 'connect'
 MSG_METHOD  = 'method'
@@ -736,6 +793,44 @@ class AggregratePodMessageFactory(object):
 
     def create(self, message):
         return self._factory.create(message)
+
+
+# = ping message factories ====================================================
+
+class PingMessageFactory(object):
+    SRC_TYPE = MSG_PING
+
+    def create(self, pod):
+        return PingMessage(id_=pod.get('id'))
+
+
+class PodPingMessageFactory(object):
+    SRC_TYPE = PingMessage
+
+    def create(self, message):
+        pod = {'msg': MSG_PING}
+        if message.has_id():
+            pod['id'] = message.id_
+        return pod
+
+
+# = pong message factories ====================================================
+
+class PongMessageFactory(object):
+    SRC_TYPE = MSG_PONG
+
+    def create(self, pod):
+        return PongMessage(id_=pod.get('id'))
+
+
+class PodPongMessageFactory(object):
+    SRC_TYPE = PongMessage
+
+    def create(self, message):
+        pod = {'msg': MSG_PONG}
+        if message.has_id():
+            pod['id'] = message.id_
+        return pod
 
 
 # =============================================================================
@@ -849,6 +944,8 @@ class ClientMessageFactory(object):
         factory_classes = [
             ConnectMessageFactory,
             MethodMessageFactory,
+            PingMessageFactory,
+            PongMessageFactory,
             SubMessageFactory,
             UnsubMessageFactory,
         ]
@@ -863,6 +960,8 @@ class PodClientMessageFactory(object):
         factory_classes = [
             PodConnectMessageFactory,
             PodMethodMessageFactory,
+            PodPingMessageFactory,
+            PodPongMessageFactory,
             PodSubMessageFactory,
             PodUnsubMessageFactory,
         ]
@@ -1158,14 +1257,16 @@ class PodUpdatedMessageFactory(object):
 class ServerMessageFactory(object):
     def __init__(self):
         factory_classes = [
-            AddedMessageFactory,
             AddedBeforeMessageFactory,
-            ConnectedMessageFactory,
+            AddedMessageFactory,
             ChangedMessageFactory,
+            ConnectedMessageFactory,
             ErrorMessageFactory,
             FailedMessageFactory,
             MovedBeforeMessageFactory,
             NosubMessageFactory,
+            PingMessageFactory,
+            PongMessageFactory,
             ReadyMessageFactory,
             RemoveMessageFactory,
             ResultMessageFactory,
@@ -1180,14 +1281,16 @@ class ServerMessageFactory(object):
 class PodServerMessageFactroy(object):
     def __init__(self):
         factory_classes = [
-            PodAddedMessageFactory,
             PodAddedBeforeMessageFactory,
-            PodConnectedMessageFactory,
+            PodAddedMessageFactory,
             PodChangedMessageFactory,
+            PodConnectedMessageFactory,
             PodErrorMessageFactory,
             PodFailedMessageFactory,
             PodMovedBeforeMessageFactory,
             PodNosubMessageFactory,
+            PodPingMessageFactory,
+            PodPongMessageFactory,
             PodReadyMessageFactory,
             PodRemovedMessageFactory,
             PodResultMessageFactory,
@@ -1355,7 +1458,7 @@ class DdpConnection(object):
         )
 
     def _opened(self):
-        msg = ConnectMessage('pre1')
+        msg = ConnectMessage('pre2')
         self._send(msg)
 
     def _send(self, message):
@@ -1369,6 +1472,9 @@ class DdpConnection(object):
             for message in self._pending:
                 self._send(message)
             self._pending = []
+        elif isinstance(message, PingMessage):
+            id_ = message.id_ if message.has_id() else None
+            self._send(PongMessage(id_=id_))
         elif exists(self._received_message_callback):
             self._received_message_callback(message)
 
