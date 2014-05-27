@@ -61,7 +61,7 @@ __all__ = ['DdpClient']
 
 
 class DdpClient(object):
-    def __init__(self, url):
+    def __init__(self, url, logging=False):
         socket_factory = ObservableWebSocketClientFactory(ServerUrl(url))
         id_generator = build_id_generator()
 
@@ -71,7 +71,6 @@ class DdpClient(object):
         self._components = [
             self._caller,
             pubsub.Connection(board),
-            pubsub.Logger(board),
             pubsub.Ponger(board),
             pubsub.Reconnector(board),
             pubsub.SocketConnection(board, socket_factory),
@@ -102,6 +101,9 @@ class DdpClient(object):
             pubsub.PodMessageParser(board, PodMessageParser()),
             pubsub.PodMessageSerializer(board, PodMessageSerializer()),
         ]
+
+        if logging:
+            self._components.append(pubsub.Logger(board))
 
     def _connect(self):
         self._board.publish(':socket:connect')
