@@ -18,5 +18,29 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .client import *
+from .client_message import ClientMessage
+
+__all__ = ['UnsubMessage']
+
+
+class UnsubMessage(ClientMessage):
+    def __init__(self, id):
+        super(UnsubMessage, self).__init__()
+        self._id = id
+
+    def __eq__(self, other):
+        return isinstance(other, UnsubMessage) and self._id == other._id
+
+    def __ne__(self, other):
+        return not self == other
+
+    def __repr__(self):
+        return str(self)
+
+    def __str__(self):
+        return 'UnsubMessage(id={!r})'.format(self._id)
+
+    @property
+    def id(self):
+        return self._id
 

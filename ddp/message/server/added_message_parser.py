@@ -18,5 +18,19 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .client import *
+from .added_message import AddedMessage
+from .server_message_parser import ServerMessageParser
+
+__all__ = ['AddedMessageParser']
+
+
+class AddedMessageParser(ServerMessageParser):
+    MESSAGE_TYPE = 'added'
+
+    def parse(self, pod):
+        return AddedMessage(
+            pod['collection'],
+            pod['id'],
+            fields=pod.get('fields')
+        )
 

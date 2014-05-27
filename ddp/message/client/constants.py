@@ -18,5 +18,16 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .client import *
+__all__ = [
+    'MSG_CONNECT',
+    'MSG_METHOD',
+    'MSG_SUB',
+    'MSG_UNSUB',
+]
+
+
+MSG_CONNECT = 'connect'
+MSG_METHOD  = 'method'
+MSG_SUB     = 'sub'
+MSG_UNSUB   = 'unsub'
 

@@ -31,10 +31,9 @@ rm --force --recursive \
     dist               \
     pyddp.egg-info
 
-find -name '*.egg' -delete
 find ddp -name '*.pyc' -delete
 
 if $deep_clean; then
-    rm --force --recursive venv
+    rm --force --recursive local/venv
 fi
 

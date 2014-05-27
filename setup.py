@@ -29,12 +29,20 @@ setup(
     author_email='foxxy@foxdogstudios.com',
     url='https://github.com/foxdog-studios/pyddp',
     license='Apache License v2.0',
-    packages=['ddp'],
+    packages=[
+        'ddp',
+        'ddp.connection',
+        'ddp.message',
+        'ddp.message.client',
+        'ddp.message.server',
+        'ddp.pod',
+        'ddp.pubsub',
+    ],
     package_data={
         '': ['LICENSE.txt']
     },
     install_requires=['ws4py'],
-    test_suite='ddp.tests',
+    test_suite='tests',
     classifiers=[
         'Development Status :: 1 - Planning',
         'Environment :: Web Environment',
@@ -42,9 +50,7 @@ setup(
         'License :: OSI Approved :: Apache Software License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
-        'Topic :: Internet :: WWW/HTTP',
-        'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
-        'Topic :: Internet :: WWW/HTTP :: WSGI',
+        'Topic :: Internet',
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
 )

@@ -18,5 +18,11 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .client import *
+from ..message_parser import MessageParser
+
+__all__ = ['ServerMessageParser']
+
+
+class ServerMessageParser(MessageParser):
+    pass
 

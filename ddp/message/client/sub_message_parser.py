@@ -18,5 +18,15 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .client import *
+from .client_message_parser import ClientMessageParser
+from .sub_message import SubMessage
+
+__all__ = ['SubMessageParser']
+
+
+class SubMessageParser(ClientMessageParser):
+    MESSAGE_TYPE = 'sub'
+
+    def parse(self, pod):
+        return SubMessage(pod['id'], pod['name'], params=pod.get('params'))
 

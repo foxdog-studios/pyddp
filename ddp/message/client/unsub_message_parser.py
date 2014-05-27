@@ -18,5 +18,15 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .client import *
+from .unsub_message import UnsubMessage
+from .client_message_parser import ClientMessageParser
+
+__all__ = ['UnsubMessageParser']
+
+
+class UnsubMessageParser(ClientMessageParser):
+    MESSAGE_TYPE = 'unsub'
+
+    def parse(self, pod):
+        return UnsubMessage(pod['id'])
 

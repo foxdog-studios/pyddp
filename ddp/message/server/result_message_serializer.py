@@ -18,5 +18,19 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .client import *
+from .server_message_serializer import ServerMessageSerializer
+
+__all__ = ['ResultMessageSerializer']
+
+
+class ResultMessageSerializer(ServerMessageSerializer):
+    MESSAGE_TYPE = 'result'
+
+    def serialize_fields(self, message):
+        fields = {'id': message.id}
+        if message.has_error():
+            fields['error'] = message.error
+        if message.has_result():
+            fields['result'] = message.result
+        return fields
 

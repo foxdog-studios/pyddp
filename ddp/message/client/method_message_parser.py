@@ -18,5 +18,15 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .client import *
+from .client_message_parser import ClientMessageParser
+from .method_message import MethodMessage
+
+__all__ = ['MethodMessageParser']
+
+
+class MethodMessageParser(ClientMessageParser):
+    MESSAGE_TYPE = 'method'
+
+    def parse(self, pod):
+        return MethodMessage(pod['id'], pod['method'], pod['params'])
 

@@ -18,5 +18,15 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .client import *
+from .error_message import ErrorMessage
+from .server_message_parser import ServerMessageParser
+
+__all__ = ['ErrorMessageParser']
+
+
+class ErrorMessageParser(ServerMessageParser):
+    MESSAGE_TYPE = 'error'
+
+    def parse(self, pod):
+        return ErrorMessage(pod['reason'], pod['offendingMessage'])
 

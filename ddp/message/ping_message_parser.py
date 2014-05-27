@@ -18,5 +18,15 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .client import *
+from .ping_message import PingMessage
+from .message_parser import MessageParser
+
+__all__ = ['PingMessageParser']
+
+
+class PingMessageParser(MessageParser):
+    MESSAGE_TYPE = 'ping'
+
+    def parse(self, pod):
+        return PingMessage(id=pod.get('id'))
 

@@ -18,5 +18,14 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .client import *
+from .server_message_serializer import ServerMessageSerializer
+
+__all__ = ['RemovedMessageSerializer']
+
+
+class RemovedMessageSerializer(ServerMessageSerializer):
+    MESSAGE_TYPE = 'removed'
+
+    def serialize_fields(self, message):
+        return {'collection': message.collection, 'id': message.id}
 

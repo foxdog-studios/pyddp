@@ -18,5 +18,29 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .client import *
+from .server_message import ServerMessage
+
+__all__ = ['ConnectedMessage']
+
+
+class ConnectedMessage(ServerMessage):
+    def __init__(self, session):
+        self._session = session
+
+    def __eq__(self, other):
+        return isinstance(other, ConnectedMessage) \
+                and self._session == other._session
+
+    def __ne__(self, other):
+        return not self == other
+
+    def __repr__(self):
+        return str(self)
+
+    def __str__(self):
+        return 'ConnectedMessage(session={!r})'.format(self._session)
+
+    @property
+    def session(self):
+        return self._session
 

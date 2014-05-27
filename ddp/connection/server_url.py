@@ -18,5 +18,13 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .client import *
+from urlparse import urlunparse
+
+
+class ServerUrl(object):
+    def __init__(self, destination, scheme='ws', path='/websocket'):
+        self._url = urlunparse((scheme, destination, path, '', '', ''))
+
+    def __str__(self):
+        return self._url
 

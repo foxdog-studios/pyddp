@@ -18,5 +18,15 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .client import *
+from .moved_before_message import MovedBeforeMessage
+from .server_message_parser import ServerMessageParser
+
+__all__ = ['MovedBeforeMessageParser']
+
+
+class MovedBeforeMessageParser(ServerMessageParser):
+    MESSAGE_TYPE = 'movedBefore'
+
+    def parse(self, pod):
+        return MovedBeforeMessage(pod['collection'], pod['id'], pod['before'])
 

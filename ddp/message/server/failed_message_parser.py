@@ -18,5 +18,15 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .client import *
+from .failed_message import FailedMessage
+from .server_message_parser import ServerMessageParser
+
+__all__ = ['FailedMessageParser']
+
+
+class FailedMessageParser(ServerMessageParser):
+    MESSAGE_TYPE = 'failed'
+
+    def parse(self, pod):
+        return FailedMessage(pod['version'])
 

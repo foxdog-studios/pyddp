@@ -18,5 +18,29 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .client import *
+from ddp.pubsub.subscriber import Subscriber
+
+__all__ = ['PodMessageSerializer']
+
+
+class PodMessageSerializer(object):
+    def __init__(self, board, serializer):
+        super(PodMessageSerializer, self).__init__()
+        self._board = board
+        self._serializer = serializer
+        self._subscriber = Subscriber(board, {
+            ':pod:send': self._on_send,
+        })
+
+    def _on_send(self, topic, pod):
+        self._board.publish(':raw:send', self._serialize(pod))
+
+    def _serialize(self, pod):
+        return self._serializer.serialize(pod)
+
+    def enable(self):
+        self._subscriber.subscribe()
+
+    def disable(self):
+        self._subscriber.unsubscribe()
 

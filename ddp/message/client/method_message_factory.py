@@ -18,5 +18,15 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .client import *
+from .method_message import MethodMessage
+
+__all__ = ['MethodMessageFactory']
+
+
+class MethodMessageFactory(object):
+    def __init__(self, ids):
+        self._ids = ids
+
+    def build(self, *args, **kwargs):
+        return MethodMessage(next(self._ids), *args, **kwargs)
 

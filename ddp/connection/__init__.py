@@ -18,5 +18,7 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .client import *
+from .observable_websocket_client import *
+from .observable_websocket_client_factory import *
+from .server_url import *
 

@@ -18,5 +18,15 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .client import *
+from .observable_websocket_client import ObservableWebSocketClient
+
+__all__ = ['ObservableWebSocketClientFactory']
+
+
+class ObservableWebSocketClientFactory(object):
+    def __init__(self, server_url):
+        self._server_url = server_url
+
+    def build(self):
+        return ObservableWebSocketClient(self._server_url)
 
