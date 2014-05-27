@@ -13,7 +13,7 @@ Installation
 Install via `pip`
 
 ```Shell
-    $ pip install pyddp
+$ pip install pyddp
 ```
 
 
@@ -22,24 +22,10 @@ Get started
 
 ```Python
 import ddp
+client = ddp.DdpClient('127.0.0.1:3000')
+client.enable()
+result = client.call('echo', 'Hello, World!')
+print(result.get())
+client.disable()
 ```
-
-
-Topics
-------
-
-:connection:connect
-:connection:connected
-:connection:disconnect
-:connection:disconnected
-
-:raw:received
-:raw:send
-
-:pod:accepted
-:pod:rejected
-:pod:send
-
-:message:recieved
-:message:send
 
