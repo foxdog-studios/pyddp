@@ -18,5 +18,15 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .client import *
+from .pong_message import PongMessage
+from .message_parser import MessageParser
+
+__all__ = ['PongMessageParser']
+
+
+class PongMessageParser(MessageParser):
+    MESSAGE_TYPE = 'pong'
+
+    def parse(self, pod):
+        return PongMessage(id=pod.get('id'))
 

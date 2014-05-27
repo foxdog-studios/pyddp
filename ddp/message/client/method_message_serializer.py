@@ -18,5 +18,18 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .client import *
+from .client_message_serializer import ClientMessageSerializer
+
+__all__ = ['MethodMessageSerializer']
+
+
+class MethodMessageSerializer(ClientMessageSerializer):
+    MESSAGE_TYPE = 'method'
+
+    def serialize_fields(self, message):
+        return {
+            'id': message.id,
+            'method': message.method,
+            'params': message.params,
+        }
 

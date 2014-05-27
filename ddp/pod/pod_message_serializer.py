@@ -18,5 +18,12 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .client import *
+import json
+
+__all__ = ['PodMessageSerializer']
+
+
+class PodMessageSerializer(object):
+    def serialize(self, pod):
+        return json.dumps(pod)
 

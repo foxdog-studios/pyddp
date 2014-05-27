@@ -18,5 +18,12 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .client import *
+from itertools import count
+
+__all__ = ['build_id_generator']
+
+
+def build_id_generator():
+    for id in count():
+        yield str(id)
 

@@ -18,5 +18,21 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .client import *
+from .server_message_serializer import ServerMessageSerializer
+
+__all__ = ['AddedBeforeMessageSerializer']
+
+
+class AddedBeforeMessageSerializer(ServerMessageSerializer):
+    MESSAGE_TYPE = 'addedBefore'
+
+    def serialize_fields(self, message):
+        fields = {
+            'collection': message.collection,
+            'id': message.id,
+            'before': message.before,
+        }
+        if message.has_fields():
+            fields['fields'] = message.fields
+        return fields
 

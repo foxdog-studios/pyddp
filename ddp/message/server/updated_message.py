@@ -18,5 +18,30 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .client import *
+from copy import copy
+
+from .server_message import ServerMessage
+
+
+class UpdatedMessage(ServerMessage):
+    def __init__(self, methods):
+        super(UpdatedMessage, self).__init__()
+        self._methods = copy(methods)
+
+    def __eq__(self, other):
+        return isinstance(other, UpdatedMessage) \
+                and self._methods == other._methods
+
+    def __ne__(self, other):
+        return not self == other
+
+    def __repr__(self):
+        return str(self)
+
+    def __str__(self):
+        return 'UpdatedMessage(methods={!r})'.format(self._methods)
+
+    @property
+    def methods(self):
+        return copy(self._methods)
 

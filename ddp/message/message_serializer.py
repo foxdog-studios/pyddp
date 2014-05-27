@@ -18,5 +18,17 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .client import *
+__all__ = ['MessageSerializer']
+
+
+class MessageSerializer(object):
+    def serialize(self, message):
+        pod = {'msg': self.MESSAGE_TYPE}
+        pod.update(self.serialize_fields(message))
+        return pod
+
+    def serialize_fields(self, message):
+        raise AttributeError(
+            'Subclass must implement serialize_fields, but does not.'
+        )
 

@@ -18,5 +18,17 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .client import *
+from .server_message_serializer import ServerMessageSerializer
+
+__all__ = ['ErrorMessageSerializer']
+
+
+class ErrorMessageSerializer(ServerMessageSerializer):
+    MESSAGE_TYPE = 'error'
+
+    def serialize_fields(self, message):
+        return {
+            'reason': message.reason,
+            'offendingMessage': message.offending_pod,
+        }
 

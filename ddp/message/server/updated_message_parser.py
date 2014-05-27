@@ -18,5 +18,15 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .client import *
+from .updated_message import UpdatedMessage
+from .server_message_parser import ServerMessageParser
+
+__all__ = ['UpdatedMessageParser']
+
+
+class UpdatedMessageParser(ServerMessageParser):
+    MESSAGE_TYPE = 'updated'
+
+    def parse(self, pod):
+        return UpdatedMessage(pod['methods'])
 

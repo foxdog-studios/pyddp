@@ -18,5 +18,15 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .client import *
+from ddp.pubsub.subscriber import Subscriber
+
+__all__ = ['PodMessageFilter']
+
+
+class PodMessageFilter(object):
+    def accept(self, pod):
+        return 'msg' in pod
+
+    def get_type(self, pod):
+        return pod['msg']
 

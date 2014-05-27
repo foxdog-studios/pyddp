@@ -18,5 +18,19 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .client import *
+from .client_message_serializer import ClientMessageSerializer
+
+__all__ = ['ConnectMessageSerializer']
+
+
+class ConnectMessageSerializer(ClientMessageSerializer):
+    MESSAGE_TYPE = 'connect'
+
+    def serialize_fields(self, message):
+        fields = {'version': message.version}
+        if message.has_support():
+            fields['support'] = message.support
+        if message.has_session():
+            fields['session'] = message.session
+        return fields
 

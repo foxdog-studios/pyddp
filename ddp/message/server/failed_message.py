@@ -18,5 +18,29 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .client import *
+from .server_message import ServerMessage
+
+__all__ = ['FailedMessage']
+
+
+class FailedMessage(ServerMessage):
+    def __init__(self, version):
+        self._version = version
+
+    def __eq__(self, other):
+        return isinstance(other, FailedMessage) \
+                and self._version == other._version
+
+    def __ne__(self, other):
+        return not self == other
+
+    def __repr__(self):
+        return str(self)
+
+    def __str__(self):
+        return 'FailedMessage(version={!r})'.format(self._version)
+
+    @property
+    def version(self):
+        return self._version
 

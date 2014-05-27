@@ -18,5 +18,32 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .client import *
+from .message import Message
+
+__all__ = ['PingMessage']
+
+
+class PingMessage(Message):
+    def __init__(self, id=None):
+        super(PingMessage, self).__init__()
+        self._id = id
+
+    def __eq__(self, other):
+        return isinstance(other, PingMessage) and self._id == other._id
+
+    def __ne__(self, other):
+        return not self == other
+
+    def __repr__(self):
+        return str(self)
+
+    def __str__(self):
+        return 'PingMessage(id={!r})'.format(self._id)
+
+    @property
+    def id(self):
+        return self._id
+
+    def has_id(self):
+        return self._id is not None
 

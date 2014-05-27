@@ -18,5 +18,15 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .client import *
+from .connected_message import ConnectedMessage
+from .server_message_parser import ServerMessageParser
+
+__all__ = ['ConnectedMessageParser']
+
+
+class ConnectedMessageParser(ServerMessageParser):
+    MESSAGE_TYPE = 'connected'
+
+    def parse(self, pod):
+        return ConnectedMessage(pod['session'])
 

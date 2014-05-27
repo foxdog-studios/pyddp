@@ -18,5 +18,17 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .client import *
+from .message_serializer import MessageSerializer
+
+__all__ = ['PingMessageSerializer']
+
+
+class PingMessageSerializer(MessageSerializer):
+    MESSAGE_TYPE = 'ping'
+
+    def serialize_fields(self, message):
+        fields = {}
+        if message.has_id():
+            fields['id'] = message.id
+        return fields
 

@@ -18,5 +18,29 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .client import *
+from .subscriber import Subscriber
+
+__all__ = ['Reconnector']
+
+
+class Reconnector(object):
+    def __init__(self, board):
+        self._board = board
+        self._subscriber = Subscriber(board, {
+            ':socket:disconnected': self._on_disconnect,
+            ':socket:error': self._on_error,
+        })
+
+    def _on_disconnect(self, topic, code, reason=None):
+        self._board.publish(':socket:connect')
+
+    def _on_error(self, topic, error):
+        self._board.publish(':socket:disconnect')
+        self._board.publish(':socket:connect')
+
+    def enable(self):
+        self._subscriber.subscribe()
+
+    def disable(self):
+        self._subscriber.unsubscribe()
 

@@ -18,5 +18,14 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .client import *
+from .client_message_serializer import ClientMessageSerializer
+
+__all__ = ['UnsubMessageSerializer']
+
+
+class UnsubMessageSerializer(ClientMessageSerializer):
+    MESSAGE_TYPE = 'unsub'
+
+    def serialize_fields(self, message):
+        return {'id': message.id}
 

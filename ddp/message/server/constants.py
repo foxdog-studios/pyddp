@@ -18,5 +18,32 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .client import *
+__all__ = [
+    'MSG_ADDED',
+    'MSG_ADDED_BEFORE',
+    'MSG_CHANGED',
+    'MSG_CONNECTED',
+    'MSG_ERROR',
+    'MSG_FAILED',
+    'MSG_MOVED_BEFORE',
+    'MSG_NOSUB',
+    'MSG_READY',
+    'MSG_REMOVED',
+    'MSG_RESULT',
+    'MSG_UPDATED',
+]
+
+
+MSG_ADDED        = 'added'
+MSG_ADDED_BEFORE = 'addedBefore'
+MSG_CHANGED      = 'changed'
+MSG_CONNECTED    = 'connected'
+MSG_ERROR        = 'error'
+MSG_FAILED       = 'failed'
+MSG_MOVED_BEFORE = 'movedBefore'
+MSG_NOSUB        = 'nosub'
+MSG_READY        = 'ready'
+MSG_REMOVED      = 'removed'
+MSG_RESULT       = 'result'
+MSG_UPDATED      = 'updated'
 

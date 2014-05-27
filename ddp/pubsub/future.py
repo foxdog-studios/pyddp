@@ -18,5 +18,31 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .client import *
+import threading
+
+__all__ = ['Future']
+
+
+class Future(object):
+    def __init__(self):
+        self._condition = threading.Condition()
+        self._has_result = False
+        self._result = None
+
+    def has_result(self):
+        with self._condition:
+            return self._has_result
+
+    def get(self, timeout=None):
+        with self._condition:
+            while not self._has_result:
+                self._condition.wait(timeout)
+        return self._result
+
+    def set(self, result):
+        assert not self._has_result
+        with self._condition:
+            self._result = result
+            self._has_result = True
+            self._condition.notify_all()
 

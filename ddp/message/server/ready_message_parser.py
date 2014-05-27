@@ -18,5 +18,15 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .client import *
+from .ready_message import ReadyMessage
+from .server_message_parser import ServerMessageParser
+
+__all__ = ['ReadyMessageParser']
+
+
+class ReadyMessageParser(ServerMessageParser):
+    MESSAGE_TYPE = 'ready'
+
+    def parse(self, pod):
+        return ReadyMessage(pod['subs'])
 

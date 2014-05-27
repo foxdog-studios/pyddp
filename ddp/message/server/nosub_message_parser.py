@@ -18,5 +18,15 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .client import *
+from .nosub_message import NosubMessage
+from .server_message_parser import ServerMessageParser
+
+__all__ = ['NosubMessageParser']
+
+
+class NosubMessageParser(ServerMessageParser):
+    MESSAGE_TYPE = 'nosub'
+
+    def parse(self, pod):
+        return NosubMessage(pod['id'], pod.get('error'))
 

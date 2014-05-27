@@ -18,5 +18,20 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .client import *
+from .changed_message import ChangedMessage
+from .server_message_parser import ServerMessageParser
+
+__all__ = ['ChangedMessageParser']
+
+
+class ChangedMessageParser(ServerMessageParser):
+    MESSAGE_TYPE = 'changed'
+
+    def parse(self, pod):
+        return ChangedMessage(
+            pod['collection'],
+            pod['id'],
+            cleared=pod.get('cleared'),
+            fields=pod.get('fields'),
+        )
 

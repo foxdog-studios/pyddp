@@ -18,5 +18,17 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .client import *
+from .client_message_serializer import ClientMessageSerializer
+
+__all__ = ['SubMessageSerializer']
+
+
+class SubMessageSerializer(ClientMessageSerializer):
+    MESSAGE_TYPE = 'sub'
+
+    def serialize_fields(self, message):
+        fields = {'id': message.id, 'name': message.name}
+        if message.has_params():
+            fields['params'] = message.params
+        return fields
 

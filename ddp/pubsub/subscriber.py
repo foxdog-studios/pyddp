@@ -18,5 +18,21 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .client import *
+__all__ = ['Subscriber']
+
+
+class Subscriber(object):
+    def __init__(self, board, subscriptions):
+        self._board = board
+        self._subscriptions = subscriptions
+
+    def _apply(self, func):
+        for topic, subscriber in self._subscriptions.iteritems():
+            func(topic, subscriber)
+
+    def subscribe(self):
+        self._apply(self._board.subscribe)
+
+    def unsubscribe(self):
+        self._apply(self._board.unsubscribe)
 
