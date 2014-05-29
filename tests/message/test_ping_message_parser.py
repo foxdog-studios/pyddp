@@ -18,3 +18,22 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+import unittest
+
+from ddp.message.ping_message import PingMessage
+from ddp.message.ping_message_parser import PingMessageParser
+
+
+class PingMessageParserTestCase(unittest.TestCase):
+    def setUp(self):
+        self.parser = PingMessageParser()
+
+    def test_parse_with_id(self):
+        id = 'test'
+        message = self.parser.parse({'msg': 'ping', 'id': id})
+        self.assertEqual(message, PingMessage(id=id))
+
+    def test_parse_without_id(self):
+        message = self.parser.parse({'msg': 'ping'})
+        self.assertEqual(message, PingMessage())
+

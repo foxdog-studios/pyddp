@@ -22,5 +22,6 @@ __all__ = ['Message']
 
 
 class Message(object):
-    pass
+    def optimize(self):
+        return self
 

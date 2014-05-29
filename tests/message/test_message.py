@@ -18,22 +18,13 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from ddp.message.ping_message import PingMessage
-from ddp.message.ping_message_serializer import PingMessageSerializer
-
 import unittest
 
+from ddp.message.message import Message
 
-class PingMessageSerializerTestCase(unittest.TestCase):
-    def setUp(self):
-        self.serializer = PingMessageSerializer()
 
-    def test_serialize_with_id(self):
-        id = 'test'
-        pod = self.serializer.serialize(PingMessage(id=id))
-        self.assertEqual(pod, {'msg': 'ping', 'id': id})
-
-    def test_serialize_without_id(self):
-        pod = self.serializer.serialize(PingMessage())
-        self.assertEqual(pod, {'msg': 'ping'})
+class MessageTestCase(unittest.TestCase):
+    def test_optimize(self):
+        message = Message()
+        self.assertIs(message.optimize(), message)
 
