@@ -12,7 +12,7 @@ it, please use a specific commit.
 
 Distributed data protocol (DDP) for Python 2.
 
-* __Async methods calls__: Call Meteor methods just like you would using Meteor
+* __Async method calls__: Call Meteor methods just like you would using Meteor
   client-side.
 
     ```Python
@@ -21,17 +21,17 @@ Distributed data protocol (DDP) for Python 2.
     print future.get()
     ```
 
-* __Automatic Reconnection__: If the connection to the server goes down, the
-  client automatically attempt to reconnect.
+* __Automatic reconnection__: If the connection to the server goes down, the
+  client automatically attempts to reconnect.
 
-* __Ponger__: Automatically responses to ping from the server.
+* __Ponger__: Automatically responses to pings from the server.
 
 * __Debugging__: ``DdpClient(..., logging=True)`` will print everything sent
   and received by the client.
 
-__Coming soon__(i.e., not implemented)
+__Coming soon__ (i.e., not implemented)
 
-*   Automating resend after reconnection
+*   Automatic resend after reconnection
 *   DDP server
 *   Outboxing
 *   Random seeds
