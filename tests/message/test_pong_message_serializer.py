@@ -18,3 +18,22 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+import unittest
+
+from ddp.message.pong_message import PongMessage
+from ddp.message.pong_message_serializer import PongMessageSerializer
+
+
+class PongMessageSerializerTestCase(unittest.TestCase):
+    def setUp(self):
+        self.serializer = PongMessageSerializer()
+
+    def test_with_id(self):
+        id = 'test'
+        pod = self.serializer.serialize(PongMessage(id=id))
+        self.assertEqual(pod, {'msg': 'pong', 'id': id})
+
+    def test_without_id(self):
+        pod = self.serializer.serialize(PongMessage())
+        self.assertEqual(pod, {'msg': 'pong'})
+

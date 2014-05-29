@@ -23,7 +23,7 @@ from setuptools import setup
 
 setup(
     name='pyddp',
-    version='0.2.1',
+    version='0.2.2',
     description='Distributed Data Protocol (DDP)',
     author='Peter Sutton',
     author_email='foxxy@foxdogstudios.com',

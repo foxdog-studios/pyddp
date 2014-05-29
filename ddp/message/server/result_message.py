@@ -75,8 +75,8 @@ class ResultMessage(ServerMessage):
         return self._result
 
     def has_error(self):
-        return exists(self._error)
+        return self._error is not None
 
     def has_result(self):
-        return exists(self._result)
+        return self._result is not None
 

@@ -22,7 +22,13 @@ __all__ = ['MessageSerializer']
 
 
 class MessageSerializer(object):
+    def __init__(self, optimize=False):
+        super(MessageSerializer, self).__init__()
+        self._optimize = optimize
+
     def serialize(self, message):
+        if self._optimize:
+            message = message.optimize()
         pod = {'msg': self.MESSAGE_TYPE}
         pod.update(self.serialize_fields(message))
         return pod

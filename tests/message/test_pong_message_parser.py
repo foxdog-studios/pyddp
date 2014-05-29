@@ -18,3 +18,22 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+import unittest
+
+from ddp.message.pong_message import PongMessage
+from ddp.message.pong_message_parser import PongMessageParser
+
+
+class PongMessageParserTestCase(unittest.TestCase):
+    def setUp(self):
+        self.parser = PongMessageParser()
+
+    def test_with_id(self):
+        id = 'test'
+        message = self.parser.parse({'msg': 'pong', 'id': id})
+        self.assertEqual(message, PongMessage(id=id))
+
+    def test_without_id(self):
+        message = self.parser.parse({'msg': 'pong'})
+        self.assertEqual(message, PongMessage())
+

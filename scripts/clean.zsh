@@ -29,9 +29,11 @@ cd -- ${0:h}/..
 rm --force --recursive \
     build              \
     dist               \
-    pyddp.egg-info
+    pyddp.egg-info     \
+    docs/build
 
 find ddp -name '*.pyc' -delete
+find tests -name '*.pyc' -delete
 
 if $deep_clean; then
     rm --force --recursive local/venv

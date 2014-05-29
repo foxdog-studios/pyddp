@@ -1,10 +1,14 @@
 pyddp
 =====
+![Build Status Images][travisci]
 
-A Python 2 distributed data protocol (DDP) client.
+
+Distributed data protocol (DDP) for Python 2.
 
 _Warning_: This library is still in the planning stage. If you choose to use it,
            please use a specific commit.
+
+Read the [documentation][docs] on ReadTheDocs.org.
 
 
 Installation
@@ -20,12 +24,43 @@ $ pip install pyddp
 Get started
 -----------
 
-```Python
-import ddp
-client = ddp.DdpClient('127.0.0.1:3000')
-client.enable()
-result = client.call('echo', 'Hello, World!')
-print(result.get())
-client.disable()
-```
+1. Create and activate a Python 2.7 [virtuelenv][virtualenv].
+
+    ```Shell
+    $ virtualenv -p python2.7 venv
+    $ . venv/bin/activate
+    ```
+
+2. Install dependencies using `pip`.
+
+    ```Shell
+    $ pip install -r requirements.txt
+    ```
+
+3. Check that everything is works.
+
+    ```Shell
+    $ nosetests
+    ```
+
+3. Install [Meteor][meteor] and run the example Meteor project.
+
+    ```Shell
+    $ cd example/meteor
+    $ meteor
+    ```
+
+4. In another terminal, activate the virtualenv (see step 1) and run the example
+   script.
+
+    ```Shell
+    $ PYTHONPATH=. python example/example.py
+    Result: HELLO, WORLD!
+    ```
+
+
+[docs]: http://pyddp.readthedocs.org/en/latest/
+[travisci]: https://travis-ci.org/foxdog-studios/pyddp.svg "Build Status Images"
+[meteor]: https://www.meteor.com/
+[virtualenv]: http://virtualenv.readthedocs.org/en/latest/
 

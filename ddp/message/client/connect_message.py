@@ -28,22 +28,8 @@ __all__ = ["ConnectMessage"]
 class ConnectMessage(ClientMessage):
     def __init__(self, version, support=None, session=None):
         super(ConnectMessage, self).__init__()
-
-        if support is not None:
-            support = copy(support)
-
-            # It appears that the preferred version does not need to be
-            # in the list of supported version. So, remove it as save a
-            # few bytes.
-            if version in support:
-                support.remove(version)
-
-            # Also, it appears that support can be omitted.
-            if not support:
-                support = None
-
         self._version = version
-        self._support = support
+        self._support = copy(support)
         self._session = session
 
     def __eq__(self, other):
@@ -87,4 +73,24 @@ class ConnectMessage(ClientMessage):
 
     def has_session(self):
         return self._session is not None
+
+    def optimize(self):
+        support = self._support
+
+        if support is not None:
+            support = copy(support)
+
+            # It appears that the preferred version does not need to be
+            # in the list of supported version.
+            if self._version in support:
+                support.remove(self._version)
+
+            # Also, it appears that support can be omitted if empty.
+            if not support:
+                support = None
+
+        optimized = type(self)(self._version, support=support,
+                               session=self._session)
+
+        return super(ConnectMessage, optimized).optimize()
 
