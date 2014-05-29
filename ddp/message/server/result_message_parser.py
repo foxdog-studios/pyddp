@@ -28,9 +28,10 @@ class ResultMessageParser(ServerMessageParser):
     MESSAGE_TYPE = 'result'
 
     def parse(self, pod):
-        return ResultMessage(
-            pod['id'],
-            error=pod.get('error'),
-            result=pod.get('result'),
-        )
+        kwargs = {}
+        if 'error' in pod:
+            kwargs['error'] = pod['error']
+        if 'result' in pod:
+            kwargs['result'] = pod['result']
+        return ResultMessage(pod['id'], **kwargs)
 
