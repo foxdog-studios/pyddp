@@ -24,19 +24,37 @@ __all__ = ['ResultMessage']
 
 
 class ResultMessage(ServerMessage):
-    def __init__(self, id, error=None, result=None):
+    '''The result of a method call, either the return value or an error.
+
+    Either ``error`` or ``result`` must be passed, but not both or neither.
+    ``error`` and ``result`` are considered passed even if their value is
+    ``None``.
+
+    :param id: The ID passed with the method call.
+    :type id: basestring
+    :param error: An error thrown by the method or a method-not-found error.
+    :type error: ddp.message.server.error
+    :param result: The return value of the method, if any.
+    '''
+
+    def __init__(self, id, **kwargs):
         super(ResultMessage, self).__init__()
 
-        # The spec says that either error or result must be given. But, the
-        # given result could be None (e.g., the methods does not return
-        # anything). So, the only meaningful check is that if error exists
-        # then result must not exist.
-        if error is not None and result is not None:
-            raise ValueError('error and result cannot both be given')
+        # Check that exactly one of error and result has been passed.
+        if kwargs.keys() not in [['error'],['result']]:
+            raise ValueError('Either error or result must be passed, but not '
+                             'both or neither.')
+
+        if not isinstance(id, basestring):
+            raise ValueError('id must be an instance of basestring.')
 
         self._id = id
-        self._error = error
-        self._result = result
+
+        self._has_error = 'error' in kwargs
+        self._error = kwargs.get('error')
+
+        self._has_result = 'result' in kwargs
+        self._result = kwargs.get('result')
 
     def __eq__(self, other):
         return isinstance(other, ResultMessage) \
@@ -75,8 +93,19 @@ class ResultMessage(ServerMessage):
         return self._result
 
     def has_error(self):
-        return self._error is not None
+        '''Does the result carry an error?
+
+        :retruns: True if the result carries an error and False otherwise.
+        :rtype: bool
+        '''
+        return self._has_error
 
     def has_result(self):
-        return self._result is not None
+        '''Does the result carry a return value?
+
+        :returns: True if the result carries a return value and False
+                  otherwise.
+        :rtype: bool
+        '''
+        return self._has_result
 

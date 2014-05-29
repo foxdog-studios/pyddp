@@ -26,8 +26,36 @@ from ddp.message.server.result_message import ResultMessage
 class ResultMessageTestCase(unittest.TestCase):
     def setUp(self):
         self.id = 'test'
-        self.result = {'result': [True, 1.0]}
         self.error = 'error'
+        self.result = {'result': [True, 1.0]}
+
+    def test_with_error(self):
+        message = ResultMessage(self.id, error=self.error)
+        self.assertEqual(message.id, self.id)
+        self.assertFalse(message.has_result())
+        self.assertIsNone(message.result)
+        self.assertTrue(message.has_error())
+        self.assertEqual(message.error, self.error)
+
+    def test_with_result(self):
+        message = ResultMessage(self.id, result=self.result)
+        self.assertEqual(message.id, self.id)
+        self.assertTrue(message.has_result())
+        self.assertEqual(message.result, self.result)
+        self.assertFalse(message.has_error())
+        self.assertIsNone(message.error)
+
+    def test_with_error_with_result(self):
+        with self.assertRaises(ValueError):
+            ResultMessage(self.id, error=self.error, result=self.result)
+
+    def test_without_error_without_result(self):
+        with self.assertRaises(ValueError):
+            ResultMessage(self.id)
+
+    def test_invalid_id(self):
+        with self.assertRaises(ValueError):
+            ResultMessage(1, result=self.result)
 
     def test_equality(self):
         m1 = ResultMessage('a', result='result1')
@@ -44,20 +72,4 @@ class ResultMessageTestCase(unittest.TestCase):
         self.assertNotEqual(m1, object())
         self.assertEqual(m5, m6)
         self.assertNotEqual(m5, m7)
-
-    def test_with_result(self):
-        message = ResultMessage(self.id, result=self.result)
-        self.assertEqual(message.id, self.id)
-        self.assertTrue(message.has_result())
-        self.assertEqual(message.result, self.result)
-        self.assertFalse(message.has_error())
-        self.assertIsNone(message.error)
-
-    def test_with_error(self):
-        message = ResultMessage(self.id, error=self.error)
-        self.assertEqual(message.id, self.id)
-        self.assertFalse(message.has_result())
-        self.assertIsNone(message.result)
-        self.assertTrue(message.has_error())
-        self.assertEqual(message.error, self.error)
 
