@@ -1,5 +1,5 @@
-pyddp
-=====
+# pyddp
+
 ![Build Status Images][travisci]
 
 
@@ -10,10 +10,9 @@ _Warning_: This library is still in the planning stage. If you choose to use it,
 
 Read the [documentation][docs] on ReadTheDocs.org.
 
-Features
---------
+## Features
 
-* _Async methods calles_. Call Meteor methods just like you would using Meteor
+* __Async methods calls__. Call Meteor methods just like you would using Meteor
   client-side.
 
     ```Python
@@ -23,12 +22,12 @@ Features
     print future.get()
     ```
 
-* _Automatic Reconnection_: If the connection to the server goes down, the
+* __Automatic Reconnection__: If the connection to the server goes down, the
   client automatically attempt to reconnect.
 
-* _Ponger_: Automatically responses to ping from the server.
+* __Ponger__: Automatically responses to ping from the server.
 
-* _Debugging_: ``DdpClient(..., logging=True)`` will print everything sent
+* __Debugging__: ``DdpClient(..., logging=True)`` will print everything sent
   and received by the client.
 
 
@@ -41,8 +40,7 @@ Features
 * Subscriptions
 
 
-Installation
-------------
+## Installation
 
 Install via `pip`
 
@@ -51,8 +49,7 @@ $ pip install pyddp
 ```
 
 
-Get started
------------
+## Get started
 
 1. Create and activate a Python 2.7 [virtuelenv][virtualenv].
 
