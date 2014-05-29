@@ -16,7 +16,7 @@ Distributed data protocol (DDP) for Python 2.
   client-side.
 
     ```Python
-    future = client.call('method', arg1, arg2, args3)
+    future = client.call('method', arg1, arg2, arg3)
     # ... do something else ...
     print future.get()
     ```
