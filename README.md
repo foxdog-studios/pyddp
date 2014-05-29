@@ -1,5 +1,7 @@
 pyddp
 =====
+![Build Status Images][Build Status Images]
+
 
 A Python 2 distributed data protocol (DDP) client.
 
@@ -29,3 +31,5 @@ print(result.get())
 client.disable()
 ```
 
+
+[Build Status Images]: https://travis-ci.org/foxdog-studios/pyddp.svg "Build Status Images"
