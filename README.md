@@ -8,6 +8,9 @@ A Python 2 distributed data protocol (DDP) client.
 _Warning_: This library is still in the planning stage. If you choose to use it,
            please use a specific commit.
 
+Read the [documentation](http://pyddp.readthedocs.org/en/latest/) on
+ReadTheDocs.org.
+
 
 Installation
 ------------
