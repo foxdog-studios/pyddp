@@ -76,8 +76,8 @@ class ChangedMessage(ServerMessage):
         return copy(self._fields)
 
     def has_cleared(self):
-        return exists(self._cleared)
+        return self._cleared is not None
 
     def has_fields(self):
-        return exists(self._fields)
+        return self._fields is not None
 

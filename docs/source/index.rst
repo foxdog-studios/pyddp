@@ -11,7 +11,8 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-
+.. automodule:: ddp.message.server.result_message
+    :members:
 
 Indices and tables
 ==================
