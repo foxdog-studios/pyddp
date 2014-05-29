@@ -1,7 +1,11 @@
 # pyddp
 
-![Build Status Images][travisci]
-
+[![Latest Version][version badge]][pypi]
+[![Downloads][downloads badge]][pypi]
+[![Egg Status][egg badge]][pypi]
+[![Wheel Status][wheel badge]][pypi]
+[![Build Status][travisci badge]][travisci]
+[![License][license badge]][pypi]
 
 Distributed data protocol (DDP) for Python 2.
 
@@ -87,7 +91,13 @@ $ pip install pyddp
 
 
 [docs]: http://pyddp.readthedocs.org/en/latest/
-[travisci]: https://travis-ci.org/foxdog-studios/pyddp.svg "Build Status Images"
+[downloads badge]: https://pypip.in/download/pyddp/badge.svg
+[egg badge]: https://pypip.in/egg/pyddp/badge.svg "Egg Status"
+[license badge]: https://pypip.in/license/pyddp/badge.svg "License"
+[travisci]:https://travis-ci.org/foxdog-studios/pyddp "Build Status"
+[travisci badge]: https://travis-ci.org/foxdog-studios/pyddp.svg "Build Status"
 [meteor]: https://www.meteor.com/
+[pypi]: https://pypi.python.org/pypi/pyddp/
+[version badge]: https://pypip.in/version/pyddp/badge.svg "Latest Version"
 [virtualenv]: http://virtualenv.readthedocs.org/en/latest/
-
+[wheel badge]: https://pypip.in/wheel/pyddp/badge.svg "Wheel Status"
