@@ -26,29 +26,34 @@ Get started
 
 1. Create and activate a Python 2.7 [virtuelenv][virtualenv].
 
+    ```Shell
+    $ virtualenv -p python2.7 venv
+    $ . venv/bin/activate
+    ```
+
 2. Install dependencies using `pip`.
 
     ```Shell
     $ pip install -r requirements.txt
     ```
 
-3. Check everything is working.
+3. Check that everything is works.
 
     ```Shell
     $ nosetests
     ```
 
-3. Install [Meteor][meteor] and run the example meteor project.
+3. Install [Meteor][meteor] and run the example Meteor project.
 
     ```Shell
     $ cd example/meteor
     $ meteor
     ```
 
-4. In another terminal, run example script (remember to activate the
-   virtualenv).
+4. In another terminal, activate the virtualenv (see step 1) and run the example
+   script.
 
-    ```Python
+    ```Shell
     $ PYTHONPATH=. python example/example.py
     Result: HELLO, WORLD!
     ```
