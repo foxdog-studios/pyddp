@@ -1,3 +1,6 @@
+*.egg
 *.pyc
 /build/
-/env/
+/dist/
+/local/
+/pyddp.egg-info/

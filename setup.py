@@ -1,4 +1,7 @@
-# Copyright 2013 Foxdog Studios Ltd
+#!/usr/bin/env python
+# coding: utf-8
+
+# Copyright 2014 Foxdog Studios Ltd
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,11 +19,39 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from distutils.core import setup
+from setuptools import setup
 
 setup(
     name='pyddp',
-    package_dir={'': 'src'},
-    packages=['ddp', 'ddp.messages'],
+    version='0.2.1',
+    description='Distributed Data Protocol (DDP)',
+    author='Peter Sutton',
+    author_email='foxxy@foxdogstudios.com',
+    url='https://github.com/foxdog-studios/pyddp',
+    license='Apache License v2.0',
+    packages=[
+        'ddp',
+        'ddp.connection',
+        'ddp.message',
+        'ddp.message.client',
+        'ddp.message.server',
+        'ddp.pod',
+        'ddp.pubsub',
+    ],
+    package_data={
+        '': ['LICENSE.txt']
+    },
+    install_requires=['ws4py'],
+    test_suite='tests',
+    classifiers=[
+        'Development Status :: 1 - Planning',
+        'Environment :: Web Environment',
+        'Intended Audience :: Developers',
+        'License :: OSI Approved :: Apache Software License',
+        'Operating System :: OS Independent',
+        'Programming Language :: Python',
+        'Topic :: Internet',
+        'Topic :: Software Development :: Libraries :: Python Modules',
+    ],
 )
 
