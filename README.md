@@ -7,8 +7,15 @@
 [![Build Status][travisci badge]][travisci]
 [![License][license badge]][pypi]
 
-__Warning__: This library is still in the planning stage. If you choose to use
-it, please use a specific commit.
+__Warning__
+
+This library is still in the planning stage. If you use
+it, please use a specific version, e.g.., in your ``requirements.txt`` add the line;
+
+```
+pyddp==0.2.2
+```
+
 
 __Distributed data protocol (DDP) for Python 2__
 
