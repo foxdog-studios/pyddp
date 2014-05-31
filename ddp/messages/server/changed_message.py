@@ -33,31 +33,19 @@ class ChangedMessage(ServerMessage):
         self._fields = copy(fields)
 
     def __eq__(self, other):
-        return isinstance(other, ChangedMessage) \
-                and self._collection == other._collection \
-                and self._id == other._id \
-                and self._cleared == other._cleared \
-                and self._fields == other._fields
-
-    def __ne__(self, other):
-        return not self == other
-
-    def __repr__(self):
-        return str(self)
+        if isinstance(other, ChangedMessage):
+            return (self._collection == other._collection
+                    and self._id == other._id
+                    and self._cleared == other._cleared
+                    and self._fields == other._fields)
+        return super(ChangedMessage, self).__eq__(other)
 
     def __str__(self):
-        return (
-            'ChangedMessage('
-            'collection={!r}, '
-            'id={!r}, '
-            'cleared={!r}, '
-            'fields={!r})'
-        ).format(
-            self._collection,
-            self._id,
-            self._cleared,
-            self._fields,
-        )
+        return 'ChangedMessage({!r}, {!r}, cleared={!r}, fields={!r})'.format(
+                self._collection,
+                self._id,
+                self._cleared,
+                self._fields)
 
     @property
     def collection(self):

@@ -25,20 +25,16 @@ __all__ = ['FailedMessage']
 
 class FailedMessage(ServerMessage):
     def __init__(self, version):
+        super(FailedMessage, self).__init__()
         self._version = version
 
     def __eq__(self, other):
-        return isinstance(other, FailedMessage) \
-                and self._version == other._version
-
-    def __ne__(self, other):
-        return not self == other
-
-    def __repr__(self):
-        return str(self)
+        if isinstance(other, FailedMessage):
+            return self._version == other._version
+        return super(FailedMessage, self).__eq__(other)
 
     def __str__(self):
-        return 'FailedMessage(version={!r})'.format(self._version)
+        return 'FailedMessage({!r})'.format(self._version)
 
     @property
     def version(self):

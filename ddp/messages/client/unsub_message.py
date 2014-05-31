@@ -29,13 +29,9 @@ class UnsubMessage(ClientMessage):
         self._id = id
 
     def __eq__(self, other):
-        return isinstance(other, UnsubMessage) and self._id == other._id
-
-    def __ne__(self, other):
-        return not self == other
-
-    def __repr__(self):
-        return str(self)
+        if isinstance(other, UnsubMessage):
+            return self._id == other._id
+        return super(UnsubMessage, self).__eq__(other)
 
     def __str__(self):
         return 'UnsubMessage(id={!r})'.format(self._id)

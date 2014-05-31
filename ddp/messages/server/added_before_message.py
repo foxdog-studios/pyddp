@@ -27,37 +27,26 @@ __all__ = ['AddedBeforeMessage']
 
 class AddedBeforeMessage(ServerMessage):
     def __init__(self, collection, id, before, fields=None):
+        super(AddedBeforeMessage, self).__init__()
         self._collection = collection
         self._id = id
         self._before = before
         self._fields = copy(fields)
 
     def __eq__(self, other):
-        return isinstance(other, AddedBeforeMessage) \
-                and self._collection == other._collection \
-                and self._id == other._id \
-                and self._before == other.before \
-                and self._fields == other._fields
-
-    def __ne__(self, other):
-        return not self == other
-
-    def __repr__(self):
-        return str(self)
+        if isinstance(other, AddedBeforeMessage):
+            return (self._collection == other._collection
+                    and self._id == other._id
+                    and self._before == other.before
+                    and self._fields == other._fields)
+        return super(AddedBeforeMessage, self).__eq__(other)
 
     def __str__(self):
-        return (
-            'AddedBeforeMessage('
-            'collection={!r}, '
-            'id={!r}, '
-            'before={!r}, '
-            'fields={!r})'
-        ).format(
-            self._collection,
-            self._id,
-            self._before,
-            self._fields,
-        )
+        return 'AddedBeforeMessage({!r}, {!r}, {!r}, fields={!r})'.format(
+                self._collection,
+                self._id,
+                self._before,
+                self._fields)
 
     @property
     def collection(self):

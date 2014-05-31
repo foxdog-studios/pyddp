@@ -28,17 +28,12 @@ class ConnectedMessage(ServerMessage):
         self._session = session
 
     def __eq__(self, other):
-        return isinstance(other, ConnectedMessage) \
-                and self._session == other._session
-
-    def __ne__(self, other):
-        return not self == other
-
-    def __repr__(self):
-        return str(self)
+        if isinstance(other, ConnectedMessage):
+            return self._session == other._session
+        return super(ConnectedMessage, self).__eq__(other)
 
     def __str__(self):
-        return 'ConnectedMessage(session={!r})'.format(self._session)
+        return 'ConnectedMessage({!r})'.format(self._session)
 
     @property
     def session(self):

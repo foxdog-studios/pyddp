@@ -29,25 +29,12 @@ class NosubMessage(ServerMessage):
         self._error = error
 
     def __eq__(self, other):
-        return isinstance(other, NosubMessage) \
-                and self._id == other._id \
-                and self._error == other._error
-
-    def __ne__(self, other):
-        return not self == other
-
-    def __repr__(self):
-        return str(self)
+        if isinstance(other, NosubMessage):
+            return self._id == other._id and self._error == other._error
+        return super(NosubMessage, self).__eq__(other)
 
     def __str__(self):
-        return (
-            'NosubMessage('
-            'id={!r}, '
-            'error={!r})'
-        ).format(
-            self._id,
-            self._error
-        )
+        return 'NosubMessage({!r}, error={!r})'.format(self._id, self._error)
 
     @property
     def id(self):

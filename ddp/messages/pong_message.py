@@ -29,13 +29,9 @@ class PongMessage(Message):
         self._id = id
 
     def __eq__(self, other):
-        return isinstance(other, PongMessage) and self._id == other._id
-
-    def __ne__(self, other):
-        return not self == other
-
-    def __repr__(self):
-        return str(self)
+        if isinstance(other, PongMessage):
+            return self._id == other._id
+        return super(PongMessage, self).__eq__(other)
 
     def __str__(self):
         return 'PongMessage(id={!r})'.format(self._id)

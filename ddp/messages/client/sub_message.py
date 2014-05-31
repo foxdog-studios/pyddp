@@ -33,28 +33,16 @@ class SubMessage(ClientMessage):
         self._params = copy(params)
 
     def __eq__(self, other):
-        return isinstance(other, SubMessage)  \
-                and self._id == other._id \
-                and self._name == other._name \
-                and self._params == other._params
-
-    def __ne__(self, other):
-        return not self == other
-
-    def __repr__(self):
-        return str(self)
+        if isinstance(other, SubMessage):
+            return (self._id == other._id and self._name == other._name
+                    and self._params == other._params)
+        return super(ClientMessage, self).__eq__(other)
 
     def __str__(self):
-        return (
-            'SubMessage('
-            'id={!r}, '
-            'name={!r}, '
-            'params={!r})'
-        ).format(
-            self._id,
-            self._name,
-            self._params
-        )
+        return 'SubMessage({!r}, {!r}, params={!r})'.format(
+                self._id,
+                self._name,
+                self._params)
 
     @property
     def id(self):

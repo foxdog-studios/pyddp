@@ -22,6 +22,8 @@ from copy import copy
 
 from .server_message import ServerMessage
 
+__all__ = ['UpdatedMessage']
+
 
 class UpdatedMessage(ServerMessage):
     def __init__(self, methods):
@@ -29,17 +31,12 @@ class UpdatedMessage(ServerMessage):
         self._methods = copy(methods)
 
     def __eq__(self, other):
-        return isinstance(other, UpdatedMessage) \
-                and self._methods == other._methods
-
-    def __ne__(self, other):
-        return not self == other
-
-    def __repr__(self):
-        return str(self)
+        if isinstance(other, UpdatedMessage):
+            return self._methods == other._methods
+        return super(UpdatedMessage, self).__eq__(other)
 
     def __str__(self):
-        return 'UpdatedMessage(methods={!r})'.format(self._methods)
+        return 'UpdatedMessage({!r})'.format(self._methods)
 
     @property
     def methods(self):

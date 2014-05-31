@@ -57,28 +57,16 @@ class ResultMessage(ServerMessage):
         self._result = kwargs.get('result')
 
     def __eq__(self, other):
-        return isinstance(other, ResultMessage) \
-                and self._id == other._id \
-                and self._error == other._error \
-                and self._result == other._result
-
-    def __ne__(self, other):
-        return not self == other
-
-    def __repr__(self):
-        return str(self)
+        if isinstance(other, ResultMessage):
+            return (self._id == other._id
+                    and self._error == other._error
+                    and self._result == other._result)
+        return super(ResultMessage, self).__eq__(other)
 
     def __str__(self):
-        return (
-            'ResultMessage('
-            'id={!r}, '
-            'error={!r}, '
-            'result={!r})'
-        ).format(
-            self._id,
-            self._error,
-            self._result
-        )
+        attr = 'error' if self._has_error else 'result'
+        value = self._error if self._has_error else self._result
+        return 'ResultMessage({!r}, {}={!r})'.format(self._id, attr, value)
 
     @property
     def id(self):

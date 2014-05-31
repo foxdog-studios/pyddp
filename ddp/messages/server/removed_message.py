@@ -25,29 +25,18 @@ __all__ = ['RemovedMessage']
 
 class RemovedMessage(ServerMessage):
     def __init__(self, collection, id):
+        super(RemovedMessage, self).__init__()
         self._collection = collection
         self._id = id
 
     def __eq__(self, other):
-        return isinstance(other, RemovedMessage) \
-                and self._collection == other._collection \
-                and self._id == other._id
-
-    def __ne__(self, other):
-        return not self == other
-
-    def __repr__(self):
-        return str(self)
+        if isinstance(other, RemovedMessage):
+            return (self._collection == other._collection
+                    and self._id == other._id)
+        return super(RemovedMessage, self).__eq__(other)
 
     def __str__(self):
-        return (
-            'RemovedMessage('
-            'collection={!r}, '
-            'id={!r})'
-        ).format(
-            self._collection,
-            self._id,
-        )
+        return 'RemovedMessage({!r}, {!r})'.format(self._collection, self._id)
 
     @property
     def collection(self):

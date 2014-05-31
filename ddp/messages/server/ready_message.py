@@ -30,16 +30,12 @@ class ReadyMessage(ServerMessage):
         self._subs = copy(subs)
 
     def  __eq__(self, other):
-        return isinstance(other, ReadyMessage) and self._subs == other._subs
-
-    def __ne__(self, other):
-        return not self == other
-
-    def __repr__(self):
-        return str(self)
+        if isinstance(other, ReadyMessage):
+            return self._subs == other._subs
+        return super(ReadyMessage, self).__eq__(other)
 
     def __str__(self):
-        return 'ReadyMessage(subs={!r})'.format(self._subs)
+        return 'ReadyMessage({!r})'.format(self._subs)
 
     @property
     def subs(self):

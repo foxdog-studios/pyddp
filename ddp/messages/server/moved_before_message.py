@@ -25,33 +25,23 @@ __all__ = ['MovedBeforeMessage']
 
 class MovedBeforeMessage(ServerMessage):
     def __init__(self, collection, id, before):
+        super(MovedBeforeMessage, self).__init__()
         self._collection = collection
         self._id = id
         self._before = before
 
     def __eq__(self, other):
-        return isinstance(other, MovedBeforeMessage) \
-                and self._collection == other._collection \
-                and self._id == other._id \
-                and self._before == other._before
-
-    def __ne__(self, other):
-        return not self == other
-
-    def __repr__(self):
-        return str(self)
+        if isinstance(other, MovedBeforeMessage):
+            return (self._collection == other._collection
+                    and self._id == other._id
+                    and self._before == other._before)
+        return super(MovedBeforeMessage, self).__eq__()
 
     def __str__(self):
-        return (
-            'MovedBeforeMessage('
-            'collection={!r}, '
-            'id={!r}, '
-            'before={!r})'
-        ).format(
-            self._collection,
-            self._id,
-            self._before
-        )
+        return 'MovedBeforeMessage({!r}, {!r}, {!r})'.format(
+                self._collection,
+                self._id,
+                self._before)
 
     @property
     def collection(self):

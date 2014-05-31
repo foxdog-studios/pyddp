@@ -25,29 +25,20 @@ __all__ = ['ErrorMessage']
 
 class ErrorMessage(ServerMessage):
     def __init__(self, reason, offending_pod):
+        super(ErrorMessage, self).__init__()
         self._reason = reason
         self._offending_pod = offending_pod
 
     def __eq__(self, other):
-        return isinstance(other, ErrorMessage) \
-                and self._reason == other._reason \
-                and self._offending_pod == other._offending_pod
-
-    def __ne__(self, other):
-        return not self == other
-
-    def __repr__(self):
-        return str(self)
+        if isinstance(other, ErrorMessage):
+            return (self._reason == other._reason
+                    and self._offending_pod == other._offending_pod)
+        return super(ErrorMessage, self).__eq__(other)
 
     def __str__(self):
-        return (
-            'ErrorMessage('
-            'reason={!r}, '
-            'offending_pod={!r})'
-        ).format(
-            self._reason,
-            self._offending_pod
-        )
+        return 'ErrorMessage({!r}, {!r})'.format(
+                self._reason,
+                self._offending_pod)
 
     @property
     def reason(self):
