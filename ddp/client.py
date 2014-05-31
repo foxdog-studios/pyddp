@@ -27,7 +27,7 @@ from ddp.connection import (
 
 from ddp.id_generator import build_id_generator
 
-from ddp.message import (
+from ddp.messages import (
     AddedBeforeMessageParser,
     AddedMessageParser,
     ChangedMessageParser,

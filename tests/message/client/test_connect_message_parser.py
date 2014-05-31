@@ -20,8 +20,8 @@ from __future__ import print_function
 
 import unittest
 
-from ddp.message.client.connect_message import ConnectMessage
-from ddp.message.client.connect_message_parser import ConnectMessageParser
+from ddp.messages.client.connect_message import ConnectMessage
+from ddp.messages.client.connect_message_parser import ConnectMessageParser
 
 
 class ConnectMessageParserTestCase(unittest.TestCase):

@@ -18,7 +18,7 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from ddp.message.client.method_message_factory import MethodMessageFactory
+from ddp.messages.client.method_message_factory import MethodMessageFactory
 from .future import Future
 from .subscriber import Subscriber
 

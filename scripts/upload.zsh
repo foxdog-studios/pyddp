@@ -9,6 +9,12 @@ unsetopt NO_UNSET
 source local/venv/bin/activate
 setopt NO_UNSET
 
-python setup.py clean sdist bdist_wheel check
+python setup.py \
+    clean       \
+    sdist       \
+    bdist_egg   \
+    bdist_wheel \
+    check
+
 twine upload dist/*
 

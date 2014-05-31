@@ -20,7 +20,7 @@ from __future__ import print_function
 
 import unittest
 
-from ddp.message.client.connect_message import ConnectMessage
+from ddp.messages.client.connect_message import ConnectMessage
 
 
 class ConnectMessageTestCase(unittest.TestCase):
@@ -29,6 +29,34 @@ class ConnectMessageTestCase(unittest.TestCase):
         self.session = 'session'
         self.support = ['pre2', 'pre1']
         self.support_optimized = ['pre1']
+
+    def test_equality(self):
+        m1 = ConnectMessage(self.version, support=self.support, session='a')
+        m2 = ConnectMessage(self.version, support=self.support, session='a')
+        m3 = ConnectMessage(self.version, support=self.support, session='b')
+        self.assertTrue(m1 == m1)
+        self.assertTrue(m1 == m2)
+        self.assertFalse(m1 == m3)
+
+    def test_inequality(self):
+        m1 = ConnectMessage(self.version, support=self.support, session='a')
+        m2 = ConnectMessage(self.version, support=self.support, session='a')
+        m3 = ConnectMessage(self.version, support=self.support, session='b')
+        self.assertFalse(m1 != m1)
+        self.assertFalse(m1 != m2)
+        self.assertTrue(m1 != m3)
+
+    def test_str(self):
+        m1 = ConnectMessage(self.version, support=self.support,
+                            session=self.session)
+        m2 = eval(str(m1))
+        self.assertEqual(m1, m2)
+
+    def test_repr(self):
+        m1 = ConnectMessage(self.version, support=self.support,
+                            session=self.session)
+        m2 = eval(repr(m1))
+        self.assertEqual(m1, m2)
 
     def test_optimize_with_support(self):
         message = ConnectMessage(self.version, support=self.support,

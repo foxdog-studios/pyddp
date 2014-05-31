@@ -20,7 +20,7 @@ from __future__ import print_function
 
 import unittest
 
-from ddp.message.server.result_message import ResultMessage
+from ddp.messages.server.result_message import ResultMessage
 
 
 class ResultMessageTestCase(unittest.TestCase):

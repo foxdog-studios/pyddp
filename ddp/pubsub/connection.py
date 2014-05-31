@@ -18,7 +18,7 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from ddp.message.client.connect_message import ConnectMessage
+from ddp.messages.client.connect_message import ConnectMessage
 from .subscriber import Subscriber
 
 __all__ = ['Connection']

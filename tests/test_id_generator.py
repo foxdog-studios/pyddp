@@ -20,20 +20,18 @@ from __future__ import print_function
 
 import unittest
 
-from ddp.messages.server.changed_message import ChangedMessage
+from ddp.id_generator import build_id_generator
 
 
-class ChangedMessageTestCase(unittest.TestCase):
+class IdGeneratorTestCase(unittest.TestCase):
     def setUp(self):
-        self.collection = 'collection'
-        self.id = 'id'
+        self.id_generator = build_id_generator()
 
-    def test_without_cleared_without_fields(self):
-        message = ChangedMessage(self.collection, self.id)
-        self.assertEqual(message.collection, self.collection)
-        self.assertEqual(message.id, self.id)
-        self.assertFalse(message.has_cleared())
-        self.assertIsNone(message.cleared)
-        self.assertFalse(message.has_fields())
-        self.assertIsNone(message.fields)
+    def test_unquie(self):
+        ids = set()
+        for i in xrange(100):
+            id = next(self.id_generator)
+            self.assertIsInstance(id, basestring)
+            self.assertNotIn(id, ids)
+            ids.add(id)
 

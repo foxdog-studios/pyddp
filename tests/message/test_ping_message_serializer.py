@@ -20,8 +20,8 @@ from __future__ import print_function
 
 import unittest
 
-from ddp.message.ping_message import PingMessage
-from ddp.message.ping_message_serializer import PingMessageSerializer
+from ddp.messages.ping_message import PingMessage
+from ddp.messages.ping_message_serializer import PingMessageSerializer
 
 
 class PingMessageSerializerTestCase(unittest.TestCase):

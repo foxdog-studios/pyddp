@@ -20,8 +20,8 @@ from __future__ import print_function
 
 import unittest
 
-from ddp.message.pong_message import PongMessage
-from ddp.message.pong_message_parser import PongMessageParser
+from ddp.messages.pong_message import PongMessage
+from ddp.messages.pong_message_parser import PongMessageParser
 
 
 class PongMessageParserTestCase(unittest.TestCase):

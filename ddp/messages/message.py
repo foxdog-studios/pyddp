@@ -18,18 +18,14 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .message import Message
-
-__all__ = ['PingMessage']
+__all__ = ['Message']
 
 
-class PingMessage(Message):
-    def __init__(self, id=None):
-        super(PingMessage, self).__init__()
-        self._id = id
-
+class Message(object):
     def __eq__(self, other):
-        return isinstance(other, PingMessage) and self._id == other._id
+        if self is other:
+            return True
+        return NotImplemented
 
     def __ne__(self, other):
         return not self == other
@@ -37,13 +33,6 @@ class PingMessage(Message):
     def __repr__(self):
         return str(self)
 
-    def __str__(self):
-        return 'PingMessage(id={!r})'.format(self._id)
-
-    @property
-    def id(self):
-        return self._id
-
-    def has_id(self):
-        return self._id is not None
+    def optimize(self):
+        return self
 

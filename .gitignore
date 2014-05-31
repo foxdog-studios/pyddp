@@ -1,5 +1,6 @@
 *.egg
 *.pyc
+/.coverage
 /build/
 /dist/
 /local/

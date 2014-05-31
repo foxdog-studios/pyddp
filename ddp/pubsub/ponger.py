@@ -18,7 +18,7 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from ddp.message.pong_message import PongMessage
+from ddp.messages.pong_message import PongMessage
 from .subscriber import Subscriber
 
 __all__ = ['Ponger']

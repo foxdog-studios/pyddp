@@ -33,28 +33,14 @@ class MethodMessage(ClientMessage):
         self._params = copy(params)
 
     def __eq__(self, other):
-        return isinstance(other, MethodMessage) \
-                and self._id == other._id \
-                and self._method == other._method \
-                and self._params == other._params
-
-    def __ne__(self, other):
-        return not self == other
-
-    def __repr__(self):
-        return str(self)
+        if not isinstance(other, MethodMessage):
+            return super(MethodMessage, self).__eq__(other)
+        return (self._id == other._id and self._method == other._method
+                and self._params == other._params)
 
     def __str__(self):
-        return (
-            'MethodMessage('
-            'id={!r}, '
-            'method={!r}, '
-            'params={!r})'
-        ).format(
-            self._id,
-            self._method,
-            self._params,
-        )
+        return 'MethodMessage({!r}, {!r}, {!r})'.format(self._id, self._method,
+                                                        self._params)
 
     @property
     def id(self):

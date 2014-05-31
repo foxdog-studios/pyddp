@@ -3,11 +3,16 @@
 setopt ERR_EXIT
 setopt NO_UNSET
 
-cd -- ${0:h}/..
+repo=$(realpath "$(dirname "$(realpath -- $0)")/..")
 
 unsetopt NO_UNSET
-source local/venv/bin/activate
+source $repo/local/venv/bin/activate
 setopt NO_UNSET
 
-python setup.py test $@
+nosetests               \
+    --cover-package=ddp \
+    --nocapture         \
+    --verbosity=2       \
+    --where=$repo/tests \
+    $@
 

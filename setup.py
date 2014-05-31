@@ -32,9 +32,9 @@ setup(
     packages=[
         'ddp',
         'ddp.connection',
-        'ddp.message',
-        'ddp.message.client',
-        'ddp.message.server',
+        'ddp.messages',
+        'ddp.messages.client',
+        'ddp.messages.server',
         'ddp.pod',
         'ddp.pubsub',
     ],

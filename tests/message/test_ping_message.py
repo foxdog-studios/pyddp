@@ -20,7 +20,7 @@ from __future__ import print_function
 
 import unittest
 
-from ddp.message.ping_message import PingMessage
+from ddp.messages.ping_message import PingMessage
 
 
 class PingMessageTestCase(unittest.TestCase):
@@ -36,6 +36,12 @@ class PingMessageTestCase(unittest.TestCase):
         self.assertNotEqual(m3, m4)
         self.assertNotEqual(m1, object())
         self.assertNotEqual(m3, object())
+
+    def test_str(self):
+        m1 = PingMessage()
+        m2 = PingMessage(id='id')
+        self.assertEqual(eval(str(m1)), m1)
+        self.assertEqual(eval(str(m2)), m2)
 
     def test_with_id(self):
         id = 'test'
