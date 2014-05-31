@@ -17,12 +17,10 @@ pyddp==0.2.2
 ```
 
 
-__Distributed data protocol (DDP) for Python 2__
-
 __Connect to a DDP server__ (e.g., a Meteor server)
 
   ```Python
-  # Import the DDP packages.
+  # Import the DDP package.
   import ddp
   
   # Create a client, passing the host and port of the server.
@@ -70,7 +68,7 @@ If the connection to the server goes down, the client automatically attempts to 
 
 __Ponger__
 
-Automatically responses to pings from the server.
+Automatically responds to pings from the server.
 
 
 __Debugging__
