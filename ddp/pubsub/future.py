@@ -20,23 +20,40 @@ from __future__ import print_function
 
 import threading
 
+from .timeout import Timeout
+
 __all__ = ['Future']
 
 
 class Future(object):
-    def __init__(self):
-        self._condition = threading.Condition()
+    def __init__(self, condition=None, poll_interval=0.01):
+        if condition is None:
+            condition = threading.Condition()
+        self._condition = condition
         self._has_result = False
+        self._poll_interval = poll_interval
         self._result = None
+
+    def _wait_result(self, get_timeout):
+        with self._condition:
+            while not self._has_result:
+                self._condition.wait(get_timeout())
 
     def has_result(self):
         with self._condition:
             return self._has_result
 
     def get(self, timeout=None):
-        with self._condition:
-            while not self._has_result:
-                self._condition.wait(timeout)
+        # Always use a timeout (even when one is not passed) so that
+        # this method is interruptible. However, if the timeout elapses
+        # and a one was not passed, just keep looping. Polling isn't
+        # ideal but that's threading in Python.
+        if timeout is None:
+            get_timeout = lambda: self._poll_interval
+        else:
+            get_timeout = Timeout(timeout).get_remaining
+
+        self._wait_result(get_timeout)
         return self._result
 
     def set(self, result):

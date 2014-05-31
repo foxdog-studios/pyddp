@@ -18,20 +18,21 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .connection import *
-from .future import *
-from .logger import *
-from .message_board import *
-from .message_parser import *
-from .message_serializer import *
-from .method_caller import *
-from .pod_message_filter import *
-from .pod_message_parser import *
-from .pod_message_serializer import *
-from .ponger import *
-from .reconnector import *
-from .socket_connection import *
-from .subscriber import *
-from .timeout import *
-from .timeout_error import *
+import time
+
+from .timeout_error import TimeoutError
+
+__all__ = ['Timeout']
+
+
+class Timeout(object):
+    def __init__(self, duration):
+        self._duration = duration
+        self._start = time.time()
+
+    def get_remaining(self):
+        remaining = self._duration - time.time() + self._start
+        if remaining <= 0:
+            raise TimeoutError()
+        return remaining
 
