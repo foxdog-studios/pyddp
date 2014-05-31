@@ -19,12 +19,13 @@ from __future__ import division
 from __future__ import print_function
 
 from .client_message_serializer import ClientMessageSerializer
+from .constants import MSG_UNSUB
 
 __all__ = ['UnsubMessageSerializer']
 
 
 class UnsubMessageSerializer(ClientMessageSerializer):
-    MESSAGE_TYPE = 'unsub'
+    MESSAGE_TYPE = MSG_UNSUB
 
     def serialize_fields(self, message):
         return {'id': message.id}

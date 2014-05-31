@@ -19,12 +19,13 @@ from __future__ import division
 from __future__ import print_function
 
 from .client_message_serializer import ClientMessageSerializer
+from .constants import MSG_METHOD
 
 __all__ = ['MethodMessageSerializer']
 
 
 class MethodMessageSerializer(ClientMessageSerializer):
-    MESSAGE_TYPE = 'method'
+    MESSAGE_TYPE = MSG_METHOD
 
     def serialize_fields(self, message):
         return {

@@ -18,14 +18,15 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .updated_message import UpdatedMessage
+from .constants import MSG_UPDATED
 from .server_message_parser import ServerMessageParser
+from .updated_message import UpdatedMessage
 
 __all__ = ['UpdatedMessageParser']
 
 
 class UpdatedMessageParser(ServerMessageParser):
-    MESSAGE_TYPE = 'updated'
+    MESSAGE_TYPE = MSG_UPDATED
 
     def parse(self, pod):
         return UpdatedMessage(pod['methods'])

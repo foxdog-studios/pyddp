@@ -19,13 +19,14 @@ from __future__ import division
 from __future__ import print_function
 
 from .client_message_parser import ClientMessageParser
+from .constants import MSG_METHOD
 from .method_message import MethodMessage
 
 __all__ = ['MethodMessageParser']
 
 
 class MethodMessageParser(ClientMessageParser):
-    MESSAGE_TYPE = 'method'
+    MESSAGE_TYPE = MSG_METHOD
 
     def parse(self, pod):
         return MethodMessage(pod['id'], pod['method'], pod['params'])

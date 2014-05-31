@@ -18,6 +18,7 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+from .constants import MSG_RESULT
 from .result_message import ResultMessage
 from .server_message_parser import ServerMessageParser
 
@@ -25,7 +26,7 @@ __all__ = ['ResultMessageParser']
 
 
 class ResultMessageParser(ServerMessageParser):
-    MESSAGE_TYPE = 'result'
+    MESSAGE_TYPE = MSG_RESULT
 
     def parse(self, pod):
         kwargs = {}

@@ -18,13 +18,14 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+from .constants import MSG_NOSUB
 from .server_message_serializer import ServerMessageSerializer
 
 __all__ = ['NosubMessageSerializer']
 
 
 class NosubMessageSerializer(ServerMessageSerializer):
-    MESSAGE_TYPE = 'nosub'
+    MESSAGE_TYPE = MSG_NOSUB
 
     def serialize_fields(self, message):
         fields = {'id': message.id}

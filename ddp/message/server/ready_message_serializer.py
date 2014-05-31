@@ -18,13 +18,14 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+from .constants import MSG_READY
 from .server_message_serializer import ServerMessageSerializer
 
 __all__ = ['ReadyMessageSerializer']
 
 
 class ReadyMessageSerializer(ServerMessageSerializer):
-    MESSAGE_TYPE = 'ready'
+    MESSAGE_TYPE = MSG_READY
 
     def serialize_fields(self, message):
         return {'subs': message.subs}

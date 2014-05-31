@@ -18,13 +18,14 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+from .constants import MSG_MOVED_BEFORE
 from .server_message_serializer import ServerMessageSerializer
 
 __all__ = ['MovedBeforeMessageSerializer']
 
 
 class MovedBeforeMessageSerializer(ServerMessageSerializer):
-    MESSAGE_TYPE = 'moved'
+    MESSAGE_TYPE = MSG_MOVED_BEFORE
 
     def serialize_fields(self, message):
         return {

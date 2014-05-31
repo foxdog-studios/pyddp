@@ -18,6 +18,7 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+from .constants import MSG_REMOVED
 from .removed_message import RemovedMessage
 from .server_message_parser import ServerMessageParser
 
@@ -25,7 +26,7 @@ __all__ = ['RemovedMessageParser']
 
 
 class RemovedMessageParser(ServerMessageParser):
-    MESSAGE_TYPE = 'removed'
+    MESSAGE_TYPE =  MSG_REMOVED
 
     def parse(self, pod):
         return RemovedMessage(pod['collection'], pod['id'])

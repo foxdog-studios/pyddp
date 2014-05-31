@@ -19,12 +19,13 @@ from __future__ import division
 from __future__ import print_function
 
 from .client_message_serializer import ClientMessageSerializer
+from .constants import MSG_CONNECT
 
 __all__ = ['ConnectMessageSerializer']
 
 
 class ConnectMessageSerializer(ClientMessageSerializer):
-    MESSAGE_TYPE = 'connect'
+    MESSAGE_TYPE = MSG_CONNECT
 
     def serialize_fields(self, message):
         fields = {'version': message.version}

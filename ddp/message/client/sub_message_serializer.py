@@ -19,12 +19,13 @@ from __future__ import division
 from __future__ import print_function
 
 from .client_message_serializer import ClientMessageSerializer
+from .constants import MSG_SUB
 
 __all__ = ['SubMessageSerializer']
 
 
 class SubMessageSerializer(ClientMessageSerializer):
-    MESSAGE_TYPE = 'sub'
+    MESSAGE_TYPE = MSG_SUB
 
     def serialize_fields(self, message):
         fields = {'id': message.id, 'name': message.name}

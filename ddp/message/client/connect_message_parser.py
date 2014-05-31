@@ -20,12 +20,13 @@ from __future__ import print_function
 
 from .client_message_parser import ClientMessageParser
 from .connect_message import ConnectMessage
+from .constants import MSG_CONNECT
 
 __all__ = ['ConnectMessageParser']
 
 
 class ConnectMessageParser(ClientMessageParser):
-    MESSAGE_TYPE = 'connect'
+    MESSAGE_TYPE = MSG_CONNECT
 
     def parse(self, pod):
         return ConnectMessage(

@@ -19,13 +19,14 @@ from __future__ import division
 from __future__ import print_function
 
 from .connected_message import ConnectedMessage
+from .constants import MSG_CONNECTED
 from .server_message_parser import ServerMessageParser
 
 __all__ = ['ConnectedMessageParser']
 
 
 class ConnectedMessageParser(ServerMessageParser):
-    MESSAGE_TYPE = 'connected'
+    MESSAGE_TYPE = MSG_CONNECTED
 
     def parse(self, pod):
         return ConnectedMessage(pod['session'])

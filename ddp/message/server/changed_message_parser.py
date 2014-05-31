@@ -19,13 +19,14 @@ from __future__ import division
 from __future__ import print_function
 
 from .changed_message import ChangedMessage
+from .constants import MSG_CHANGED
 from .server_message_parser import ServerMessageParser
 
 __all__ = ['ChangedMessageParser']
 
 
 class ChangedMessageParser(ServerMessageParser):
-    MESSAGE_TYPE = 'changed'
+    MESSAGE_TYPE = MSG_CHANGED
 
     def parse(self, pod):
         return ChangedMessage(

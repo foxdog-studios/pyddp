@@ -18,13 +18,14 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+from .constants import MSG_CONNECTED
 from .server_message_serializer import ServerMessageSerializer
 
 __all__ = ['ConnectedMessageSerializer']
 
 
 class ConnectedMessageSerializer(ServerMessageSerializer):
-    MESSAGE_TYPE = 'connected'
+    MESSAGE_TYPE = MSG_CONNECTED
 
     def serialize_fields(self, message):
         return {'session': message.session}
