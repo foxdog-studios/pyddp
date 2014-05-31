@@ -7,27 +7,76 @@
 [![Build Status][travisci badge]][travisci]
 [![License][license badge]][pypi]
 
-__Warning__: This library is still in the planning stage. If you choose to use
-it, please use a specific commit.
+__Warning__
 
-Distributed data protocol (DDP) for Python 2.
+This library is still in the planning stage. If you use
+it, please use a specific version, e.g.., in your ``requirements.txt`` add the line;
 
-* __Async method calls__: Call Meteor methods just like you would using Meteor
-  client-side.
+```
+pyddp==0.2.2
+```
 
-    ```Python
-    future = client.call('method', arg1, arg2, arg3)
-    # ... do something else ...
-    print future.get()
-    ```
 
-* __Automatic reconnection__: If the connection to the server goes down, the
-  client automatically attempts to reconnect.
+__Connect to a DDP server__ (e.g., a Meteor server)
 
-* __Ponger__: Automatically responses to pings from the server.
+  ```Python
+  # Import the DDP package.
+  import ddp
+  
+  # Create a client, passing the host and port of the server.
+  client = ddp.DdpClient('127.0.0.1:3000')
+  
+  # Once enabled, the client will maintain a connection to the server.
+  client.enable()
+  ```
+  
+  
+__Call a method__
 
-* __Debugging__: ``DdpClient(..., logging=True)`` will print everything sent
-  and received by the client.
+  Assume your Meteor server has the following method.
+  
+  ```JavaScript
+  Meteor.methods({
+    upper: function (text) {
+      check(text, String);
+      return text.toUpperCase();
+    }
+  });
+  ```
+  
+  ```Python
+  # The method is executed asynchronously.
+  future = client.call('upper', 'Hello, World1')
+  
+  # ... Do something else ...
+  
+  # Block until the result message is received.
+  result_message = future.get()
+  
+  # Check if an error occured else print the result.
+  if result_message.has_error():
+    print result_message.error
+  else:
+    print result_message.result
+    
+  ```
+
+__Automatic reconnection__
+
+If the connection to the server goes down, the client automatically attempts to reconnect.
+
+
+__Ponger__
+
+Automatically responds to pings from the server.
+
+
+__Debugging__
+
+  ```Python
+  client = ddp.DdpClient('127.0.0.1:3000', logging=True)
+  ```
+
 
 __Coming soon__ (i.e., not implemented)
 
