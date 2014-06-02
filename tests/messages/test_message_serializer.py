@@ -27,11 +27,22 @@ __all__ = ['MessageSerializerTestCase']
 
 
 class MessageSerializerTestCase(unittest.TestCase):
-    def setUp(self):
-        self.message = PingMessage()
-        self.serializer = MessageSerializer()
-
     def test_not_implemeted(self):
         with self.assertRaises(NotImplementedError):
-            self.serializer.serialize_fields(self.message)
+            MessageSerializer().serialize_fields(PingMessage())
+
+    def test_optimize(self):
+        class MockMessage(object):
+            def __init__(self, optimized=False):
+                self.optimized = optimized
+            def optimize(self):
+                return MockMessage(optimized=True)
+        class MockMessageSerializer(MessageSerializer):
+            MESSAGE_TYPE = 'mock'
+            def serialize_fields(self, message):
+                return {'optimized': message.optimized}
+        s1 = MockMessageSerializer()
+        s2 = MockMessageSerializer(optimize=True)
+        self.assertFalse(s1.serialize(MockMessage())['optimized'])
+        self.assertTrue(s2.serialize(MockMessage())['optimized'])
 

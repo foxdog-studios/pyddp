@@ -37,6 +37,12 @@ class PongMessageTestCase(unittest.TestCase):
         self.assertNotEqual(m1, object())
         self.assertNotEqual(m3, object())
 
+    def test_str(self):
+        m1 = PongMessage()
+        m2 = PongMessage(id='m2')
+        self.assertEqual(eval(str(m1)), m1)
+        self.assertEqual(eval(str(m2)), m2)
+
     def test_with_id(self):
         id = 'test'
         message = PongMessage(id=id)
