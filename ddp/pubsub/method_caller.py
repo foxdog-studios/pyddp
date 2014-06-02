@@ -18,7 +18,6 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from ddp.messages.client.method_message_factory import MethodMessageFactory
 from .future import Future
 from .subscriber import Subscriber
 
@@ -26,10 +25,9 @@ __all__ = ['MethodCaller']
 
 
 class MethodCaller(object):
-    def __init__(self, board, ids):
+    def __init__(self, board, method_message_factroy):
         self._board = board
-        self._ids = ids
-        self._factory = MethodMessageFactory(ids)
+        self._factory = method_message_factroy
         self._futures = {}
         self._subscriber = Subscriber(board, {
             ':message:received:result': self._on_result,

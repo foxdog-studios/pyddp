@@ -28,6 +28,8 @@ from ddp.connection import (
 from ddp.id_generator import build_id_generator
 
 from ddp.messages import (
+    MethodMessageFactory,
+
     AddedBeforeMessageParser,
     AddedMessageParser,
     ChangedMessageParser,
@@ -66,7 +68,8 @@ class DdpClient(object):
         id_generator = build_id_generator()
 
         self._board = board = pubsub.MessageBoard()
-        self._caller = pubsub.MethodCaller(board, id_generator)
+        self._caller = pubsub.MethodCaller(board,
+                MethodMessageFactory(id_generator))
 
         self._components = [
             self._caller,
