@@ -9,10 +9,13 @@ unsetopt NO_UNSET
 source $repo/local/venv/bin/activate
 setopt NO_UNSET
 
-nosetests               \
-    --cover-package=ddp \
-    --nocapture         \
-    --verbosity=2       \
-    --where=$repo/tests \
+nosetests                              \
+    --cover-erase                      \
+    --cover-html                       \
+    --cover-html-dir=$repo/local/cover \
+    --cover-package=ddp                \
+    --nocapture                        \
+    --verbosity=2                      \
+    --where=$repo/tests                \
     $@
 

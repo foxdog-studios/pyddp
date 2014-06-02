@@ -29,6 +29,14 @@ class ResultMessageTestCase(unittest.TestCase):
         self.error = 'error'
         self.result = {'result': [True, 1.0]}
 
+    def test_str(self):
+        m1 = ResultMessage(self.id, error=self.error)
+        m2 = ResultMessage(self.id, result=self.result)
+        self.assertEqual(eval(str(m1)), m1)
+        self.assertEqual(eval(repr(m1)), m1)
+        self.assertEqual(eval(str(m2)), m2)
+        self.assertEqual(eval(repr(m2)), m2)
+
     def test_with_error(self):
         message = ResultMessage(self.id, error=self.error)
         self.assertEqual(message.id, self.id)

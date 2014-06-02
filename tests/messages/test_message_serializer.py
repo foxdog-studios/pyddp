@@ -18,22 +18,20 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-__all__ = ['MessageSerializer']
+import unittest
+
+from ddp.messages.ping_message import PingMessage
+from ddp.messages.message_serializer import MessageSerializer
+
+__all__ = ['MessageSerializerTestCase']
 
 
-class MessageSerializer(object):
-    def __init__(self, optimize=False):
-        super(MessageSerializer, self).__init__()
-        self._optimize = optimize
+class MessageSerializerTestCase(unittest.TestCase):
+    def setUp(self):
+        self.message = PingMessage()
+        self.serializer = MessageSerializer()
 
-    def serialize(self, message):
-        if self._optimize:
-            message = message.optimize()
-        pod = {'msg': self.MESSAGE_TYPE}
-        pod.update(self.serialize_fields(message))
-        return pod
-
-    def serialize_fields(self, message):
-        raise NotImplementedError('Subclass must implement serialize_fields, '
-                                  'but does not.')
+    def test_not_implemeted(self):
+        with self.assertRaises(NotImplementedError):
+            self.serializer.serialize_fields(self.message)
 

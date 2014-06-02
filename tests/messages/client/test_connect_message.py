@@ -34,17 +34,10 @@ class ConnectMessageTestCase(unittest.TestCase):
         m1 = ConnectMessage(self.version, support=self.support, session='a')
         m2 = ConnectMessage(self.version, support=self.support, session='a')
         m3 = ConnectMessage(self.version, support=self.support, session='b')
-        self.assertTrue(m1 == m1)
-        self.assertTrue(m1 == m2)
-        self.assertFalse(m1 == m3)
-
-    def test_inequality(self):
-        m1 = ConnectMessage(self.version, support=self.support, session='a')
-        m2 = ConnectMessage(self.version, support=self.support, session='a')
-        m3 = ConnectMessage(self.version, support=self.support, session='b')
-        self.assertFalse(m1 != m1)
-        self.assertFalse(m1 != m2)
-        self.assertTrue(m1 != m3)
+        self.assertEqual(m1, m1)
+        self.assertEqual(m1, m2)
+        self.assertNotEqual(m1, m3)
+        self.assertNotEqual(m1, object())
 
     def test_str(self):
         m1 = ConnectMessage(self.version, support=self.support,

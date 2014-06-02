@@ -33,11 +33,11 @@ class ConnectMessage(ClientMessage):
         self._session = session
 
     def __eq__(self, other):
-        if not isinstance(self, ConnectMessage):
-            return super(ConnectMessage, self).__eq__(other)
-        return (self._version == other._version
-                and self._support == other._support
-                and self._session == other._session)
+        if isinstance(other, ConnectMessage):
+            return (self._version == other._version
+                    and self._support == other._support
+                    and self._session == other._session)
+        return super(ConnectMessage, self).__eq__(other)
 
     def __str__(self):
         return 'ConnectMessage({!r}, support={!r}, session={!r})'.format(
