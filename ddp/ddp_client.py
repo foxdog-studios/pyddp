@@ -18,13 +18,14 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+from ddp.utils import ensure_asyncio
+ensure_asyncio()
+
+import asyncio
+
+from autobahn.asyncio.websocket import WebSocketClientFactory
+
 from ddp import pubsub
-
-from ddp.connection import (
-    ObservableWebSocketClientFactory,
-    ServerUrl,
-)
-
 from ddp.id_generator import build_id_generator
 
 from ddp.messages import (
@@ -59,24 +60,24 @@ from ddp.pod import (
     PodMessageSerializer,
 )
 
-__all__ = ['DdpClient']
+__all__ = ['DDPClient']
 
 
-class DdpClient(object):
-    def __init__(self, url, logging=False):
-        socket_factory = ObservableWebSocketClientFactory(ServerUrl(url))
-        id_generator = build_id_generator()
-
-        self._board = board = pubsub.MessageBoard()
-        self._caller = pubsub.MethodCaller(board,
-                MethodMessageFactory(id_generator))
-
-        self._components = [
+class DDPClient(object):
+    def __init__(self, loop, url, debug=False):
+        super(DDPClient, self).__init__()
+        ids = build_id_generator()
+        self._board = board = pubsub.MessageBoard(loop)
+        self._caller = pubsub.MethodCaller(board, MethodMessageFactory(ids))
+        factory = WebSocketClientFactory(url=url, loop=loop)
+        factory.protocol = pubsub.SocketPublisherFactory(board)
+        subscribers = [
             self._caller,
-            pubsub.Connection(board),
+            pubsub.DDPConnector(board),
             pubsub.Ponger(board),
-            pubsub.Reconnector(board),
-            pubsub.SocketConnection(board, socket_factory),
+            pubsub.Outbox(board),
+            pubsub.SocketReconnector(board),
+            pubsub.SocketConnector(board, loop, factory),
 
             pubsub.MessageParser(board, AddedBeforeMessageParser()),
             pubsub.MessageParser(board, AddedMessageParser()),
@@ -105,28 +106,15 @@ class DdpClient(object):
             pubsub.PodMessageSerializer(board, PodMessageSerializer()),
         ]
 
-        if logging:
-            self._components.append(pubsub.Logger(board))
+        if debug:
+            subscribers.append(pubsub.Logger(board))
 
-    def _connect(self):
-        self._board.publish(':socket:connect')
+        for subscriber in subscribers:
+            subscriber.subscribe()
 
-    def _disconnect(self):
-        self._board.publish(':socket:disconnect')
+    def open(self):
+        self._board.publish(pubsub.SocketOpen)
 
-    def _publish(self, topic, *args, **kwargs):
-        self._board.publish(topic, *args, **kwargs)
-
-    def call(self, method, *params):
-        return self._caller.call(method, list(params))
-
-    def enable(self):
-        for component in self._components:
-            component.enable()
-        self._connect()
-
-    def disable(self):
-        self._disconnect()
-        for component in self._components:
-            component.disable()
+    def call(self, future, method, *params):
+        self._caller.call(future, method, list(params))
 

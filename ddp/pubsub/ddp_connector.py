@@ -20,31 +20,29 @@ from __future__ import print_function
 
 from ddp.messages.client.connect_message import ConnectMessage
 from .subscriber import Subscriber
+from .topics import (
+    DDPConnected,
+    MessageReceivedConnected,
+    MessageSendConnect,
+    SocketOpened,
+)
 
-__all__ = ['Connection']
+__all__ = ['DDPConnector']
 
 
-class Connection(object):
+class DDPConnector(Subscriber):
     def __init__(self, board, session=None):
+        super(DDPConnector, self).__init__(board, {
+                SocketOpened: self._on_socket_opened,
+                MessageReceivedConnected: self._on_ddp_connected})
         self._board = board
         self._session = session
-        self._subscriber = Subscriber(board, {
-            ':socket:connected': self._on_socket_connected,
-            ':message:received:connected': self._on_connected,
-        })
 
-    def _on_socket_connected(self, topic):
-        self._board.publish(
-            ':message:send:connect',
-            ConnectMessage('pre2', session=self._session),
-        )
+    def _on_socket_opened(self, topic):
+        self._board.publish(MessageSendConnect,
+                            ConnectMessage('pre2', session=self._session))
 
-    def _on_connected(self, topic, message):
+    def _on_ddp_connected(self, topic, message):
         self._session = message.session
-
-    def enable(self):
-        self._subscriber.subscribe()
-
-    def disable(self):
-        self._subscriber.unsubscribe()
+        self._board.publish(DDPConnected)
 

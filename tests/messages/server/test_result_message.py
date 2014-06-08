@@ -58,8 +58,12 @@ class ResultMessageTestCase(unittest.TestCase):
             ResultMessage(self.id, error=self.error, result=self.result)
 
     def test_without_error_without_result(self):
-        with self.assertRaises(ValueError):
-            ResultMessage(self.id)
+        message = ResultMessage(self.id)
+        self.assertEqual(message.id, self.id)
+        self.assertFalse(message.has_error())
+        self.assertIsNone(message.error)
+        self.assertFalse(message.has_result())
+        self.assertIsNone(message.result)
 
     def test_invalid_id(self):
         with self.assertRaises(ValueError):

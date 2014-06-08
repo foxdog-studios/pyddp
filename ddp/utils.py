@@ -18,15 +18,24 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .observable_websocket_client import ObservableWebSocketClient
+import imp
+import sys
 
-__all__ = ['ObservableWebSocketClientFactory']
+__all__ = ['ensure_asyncio']
 
 
-class ObservableWebSocketClientFactory(object):
-    def __init__(self, server_url):
-        self._server_url = server_url
-
-    def build(self):
-        return ObservableWebSocketClient(self._server_url)
+def ensure_asyncio():
+    try:
+        import asyncio
+    except ImportError:
+        file, pathname, description = imp.find_module('trollius')
+        try:
+            asyncio = imp.load_module('asyncio', file, pathname, description)
+        finally:
+            if file is not None:
+                try:
+                    file.close()
+                except:
+                    pass
+        sys.modules['asyncio'] = asyncio
 

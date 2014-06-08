@@ -18,7 +18,25 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .observable_websocket_client import *
-from .observable_websocket_client_factory import *
-from .server_url import *
+from .subscriber import Subscriber
+from .topics import SocketClosed, SocketError, SocketOpen
+
+__all__ = ['SocketReconnector']
+
+
+class SocketReconnector(Subscriber):
+    def __init__(self, board):
+        super(SocketReconnector, self).__init__( board, {
+                SocketClosed: self._on_close,
+                SocketError: self._on_error})
+        self._board = board
+
+    def _on_close(self, topic, was_clean, code, reason):
+        self._publish_socket_open()
+
+    def _on_error(self, topic, error):
+        self._publish_socket_open()
+
+    def _publish_socket_open(self):
+        self._board.publish(SocketOpen)
 

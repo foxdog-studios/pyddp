@@ -18,48 +18,36 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-import threading
+from functools import partial
 
 __all__ = ['MessageBoard']
 
 
 class MessageBoard(object):
-    def __init__(self):
-        self._lock = threading.RLock()
-        self._pending = []
-        self._publishing = False
-        self._sep = ':'
+    def __init__(self, loop):
+        super(MessageBoard, self).__init__()
+        self._loop = loop
         self._subscribers = {}
 
-    def _publish(self):
-        self._publishing = True
-        while self._pending:
-            topic_parts = []
-            subscribers = dict(self._subscribers)
-            topic, args, kwargs = self._pending.pop(0)
-            for topic_part in topic.split(self._sep):
-                topic_parts.append(topic_part)
-                ancestor_topic = self._sep.join(topic_parts)
-                if ancestor_topic in subscribers:
-                    for subscriber in subscribers[ancestor_topic]:
-                        subscriber(topic, *args, **kwargs)
-        self._publishing = False
-
-    def subscribe(self, topic, subscriber):
-        with self._lock:
-            self._subscribers.setdefault(topic, []).append(subscriber)
-
-    def unsubscribe(self, topic, subscriber):
-        with self._lock:
-            has_subscribers = topic in self._subscribers
-            if has_subscribers and subscriber in self._subscribers[topic]:
-                self._subscribers[topic].remove(subscriber)
-                if not self._subscribers[topic]:
-                    del self._subscribers[topic]
+    def _call_subscribers(self, topic, *args, **kwargs):
+        for ancestor_topic in topic:
+            if ancestor_topic in self._subscribers:
+                for subscriber in self._subscribers[ancestor_topic]:
+                    subscriber(topic, *args, **kwargs)
 
     def publish(self, topic, *args, **kwargs):
-        with self._lock:
-            self._pending.append((topic, args, kwargs))
-            if not self._publishing:
-                self._publish()
+        self._loop.call_soon(partial(self._call_subscribers, topic, *args,
+                                     **kwargs))
+
+    def subscribe(self, topic, subscriber):
+        if topic not in self._subscribers:
+            self._subscribers[topic] = []
+        self._subscribers[topic].append(subscriber)
+
+    def unsubscribe(self, topic, subscriber):
+        has_subscribers = topic in self._subscribers
+        if has_subscribers and subscriber in self._subscribers[topic]:
+            self._subscribers[topic].remove(subscriber)
+            if not self._subscribers[topic]:
+                del self._subscribers[topic]
 

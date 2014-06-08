@@ -19,16 +19,17 @@ from __future__ import division
 from __future__ import print_function
 
 from .subscriber import Subscriber
+from .topic import RootTopic
 
 __all__ = ['Logger']
 
 
-class Logger(object):
+class Logger(Subscriber):
     def __init__(self, board):
-        self._subscriber = Subscriber(board, {'': self._on_publish})
+        super(Logger, self).__init__(board, {RootTopic: self._on_publish})
 
     def _on_publish(self, topic, *args, **kwargs):
-        lines = [topic]
+        lines = [str(topic)]
         if args:
             lines.append('  Arguments:')
             for i, arg in enumerate(args):
@@ -38,10 +39,4 @@ class Logger(object):
             for key, value in sorted(kwargs.items()):
                 lines.append('    {} -> {}'.format(key, value))
         print('\n'.join(lines))
-
-    def enable(self):
-        self._subscriber.subscribe()
-
-    def disable(self):
-        self._subscriber.unsubscribe()
 

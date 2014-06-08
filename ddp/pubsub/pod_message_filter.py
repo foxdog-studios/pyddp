@@ -19,23 +19,23 @@ from __future__ import division
 from __future__ import print_function
 
 from .subscriber import Subscriber
+from .topics import PodAccepted, PodReceived, PodRejected
 
 __all__ = ['PodMessageFilter']
 
 
-class PodMessageFilter(object):
+class PodMessageFilter(Subscriber):
     def __init__(self, board, pod_message_filter):
+        super(PodMessageFilter, self).__init__(board, {
+                PodReceived: self._on_received})
         self._board = board
         self._pod_message_filter = pod_message_filter
-        self._subscriber = Subscriber(board, {
-            ':pod:received': self._on_received,
-        })
 
     def _on_received(self, topic, pod):
         if self._accept(pod):
-            topic = ':pod:accepted:' + self._get_type(pod)
+            topic = PodAccepted + self._get_type(pod)
         else:
-            topic = ':pod:rejected'
+            topic = PodRejected
         self._board.publish(topic, pod)
 
     def _accept(self, pod):
@@ -43,10 +43,4 @@ class PodMessageFilter(object):
 
     def _get_type(self, pod):
         return self._pod_message_filter.get_type(pod)
-
-    def enable(self):
-        self._subscriber.subscribe()
-
-    def disable(self):
-        self._subscriber.unsubscribe()
 

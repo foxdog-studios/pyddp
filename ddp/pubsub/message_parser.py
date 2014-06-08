@@ -19,42 +19,19 @@ from __future__ import division
 from __future__ import print_function
 
 from .subscriber import Subscriber
+from .topics import MessageReceived, PodAccepted
 
 __all__ = ['MessageParser']
 
 
-class MessageParser(object):
+class MessageParser(Subscriber):
     def __init__(self, board, parser):
+        super(MessageParser, self).__init__(board, {
+                PodAccepted + parser.MESSAGE_TYPE: self._on_accepted})
         self._board = board
         self._parser = parser
-        self._subscriber = Subscriber(board, {
-            ':pod:accepted:' + self._get_message_type(): self._on_accepted,
-        })
-
-    def _get_message_type(self):
-        return self._parser.MESSAGE_TYPE
 
     def _on_accepted(self, topic, pod):
-        try:
-            message = self._parse(pod)
-        except Exception as error:
-            self._board.publish(
-                ':pod:error:' + self._get_message_type(),
-                pod,
-                error,
-            )
-        else:
-            self._board.publish(
-                ':message:received:' + self._get_message_type(),
-                self._parse(pod),
-            )
-
-    def _parse(self, pod):
-        return self._parser.parse(pod)
-
-    def enable(self):
-        self._subscriber.subscribe()
-
-    def disable(self):
-        self._subscriber.unsubscribe()
+        self._board.publish(MessageReceived + self._parser.MESSAGE_TYPE,
+                            self._parser.parse(pod))
 

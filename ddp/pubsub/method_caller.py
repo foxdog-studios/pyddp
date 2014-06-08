@@ -18,36 +18,29 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .future import Future
 from .subscriber import Subscriber
+from .topics import MessageReceivedResult, MessageSendMethod
 
 __all__ = ['MethodCaller']
 
 
-class MethodCaller(object):
+class MethodCaller(Subscriber):
     def __init__(self, board, method_message_factroy):
+        super(MethodCaller, self).__init__(board, {
+                MessageReceivedResult: self._on_result})
         self._board = board
         self._factory = method_message_factroy
         self._futures = {}
-        self._subscriber = Subscriber(board, {
-            ':message:received:result': self._on_result,
-        })
 
     def _on_result(self, topic, result):
         if result.id in self._futures:
             future = self._futures[result.id]
             del self._futures[result.id]
-            future.set(result)
+            future.set_result(result)
 
-    def call(self, method, params):
+    def call(self, future, method, params):
         message = self._factory.build(method, params)
-        self._futures[message.id] = future = Future()
-        self._board.publish(':message:send:method', message)
+        self._futures[message.id] = future
+        self._board.publish(MessageSendMethod, message)
         return future
-
-    def enable(self):
-        self._subscriber.subscribe()
-
-    def disable(self):
-        self._subscriber.unsubscribe()
 

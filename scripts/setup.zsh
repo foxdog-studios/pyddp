@@ -46,6 +46,7 @@ function install_python_packages()
     setopt NO_UNSET
 
     python $repo/setup.py develop
+    pip install --requirement $repo/requirements.txt
 }
 
 

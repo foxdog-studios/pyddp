@@ -26,9 +26,9 @@ __all__ = ['ResultMessage']
 class ResultMessage(ServerMessage):
     '''The result of a method call, either the return value or an error.
 
-    Either ``error`` or ``result`` must be passed, but not both or neither.
-    ``error`` and ``result`` are considered passed even if their value is
-    ``None``.
+    Either ``error`` or ``result`` may be passed (possibly neither, but not
+    both.. ``error`` and ``result`` are considered passed even if their value
+    is ``None``.
 
     :param id: The ID passed with the method call.
     :type id: basestring
@@ -40,10 +40,10 @@ class ResultMessage(ServerMessage):
     def __init__(self, id, **kwargs):
         super(ResultMessage, self).__init__()
 
-        # Check that exactly one of error and result has been passed.
-        if kwargs.keys() not in [['error'],['result']]:
-            raise ValueError('Either error or result must be passed, but not '
-                             'both or neither.')
+        # Check that either error and result has been passed.
+        if kwargs.keys() not in [[], ['error'], ['result']]:
+            raise ValueError('Either error or result may be passed, but not '
+                             'both.')
 
         if not isinstance(id, basestring):
             raise ValueError('id must be an instance of basestring.')
@@ -59,14 +59,20 @@ class ResultMessage(ServerMessage):
     def __eq__(self, other):
         if isinstance(other, ResultMessage):
             return (self._id == other._id
+                    and self._has_error == other._has_error
                     and self._error == other._error
+                    and self._has_result == other._has_result
                     and self._result == other._result)
         return super(ResultMessage, self).__eq__(other)
 
     def __str__(self):
-        attr = 'error' if self._has_error else 'result'
-        value = self._error if self._has_error else self._result
-        return 'ResultMessage({!r}, {}={!r})'.format(self._id, attr, value)
+        parts = ['ResultMessage(', repr(self._id)]
+        if self._has_error:
+            parts += [', error=', repr(self._error)]
+        if self._has_result:
+            parts += [', result=', repr(self._result)]
+        parts.append(')')
+        return ''.join(parts)
 
     @property
     def id(self):

@@ -18,13 +18,15 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from urlparse import urlunparse
+from .socket_publisher import SocketPublisher
+
+__all__ = ['SocketPublisherFactory']
 
 
-class ServerUrl(object):
-    def __init__(self, destination, scheme='ws', path='/websocket'):
-        self._url = urlunparse((scheme, destination, path, '', '', ''))
+class SocketPublisherFactory(object):
+    def __init__(self, board):
+        self._board = board
 
-    def __str__(self):
-        return self._url
+    def __call__(self):
+       return SocketPublisher(self._board)
 

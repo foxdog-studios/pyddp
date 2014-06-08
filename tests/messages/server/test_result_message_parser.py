@@ -47,6 +47,6 @@ class ResultMessageParserTestCase(unittest.TestCase):
                                'error': self.error, 'result': self.result})
 
     def test_without_error_without_reuslt(self):
-        with self.assertRaises(ValueError):
-            self.parser.parse({'msg': 'result', 'id': self.id})
+        message = self.parser.parse({'msg': 'result', 'id': self.id})
+        self.assertEqual(message, ResultMessage(self.id))
 
