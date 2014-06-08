@@ -19,39 +19,21 @@ from __future__ import division
 from __future__ import print_function
 
 from .subscriber import Subscriber
+from .topics import MessageSend, PodSend
 
 __all__ = ['MessageSerializer']
 
 
-class MessageSerializer(object):
+class MessageSerializer(Subscriber):
     def __init__(self, board, serializer):
+        super(MessageSerializer, self).__init__(
+                board,
+                {MessageSend + serializer.MESSAGE_TYPE: self._on_send})
         self._board = board
         self._serializer = serializer
-        self._subscriber = Subscriber(board, {
-            ':message:send:' + self._get_message_type(): self._on_send,
-        })
-
-    def _get_message_type(self):
-        return self._serializer.MESSAGE_TYPE
 
     def _on_send(self, topic, message):
-        try:
-            pod = self._serialize(message)
-        except Exception as error:
-            self._board.publish(
-                ':message:error:' + self._get_message_type(),
-                message,
-                error,
-            )
-        else:
-            self._board.publish(':pod:send:' + self._get_message_type(), pod)
-
-    def _serialize(self, message):
-        return self._serializer.serialize(message)
-
-    def enable(self):
-        self._subscriber.subscribe()
-
-    def disable(self):
-        self._subscriber.unsubscribe()
+        self._board.publish(
+                PodSend + self._serializer.MESSAGE_TYPE,
+                self._serializer.serialize(message))
 

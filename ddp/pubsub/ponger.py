@@ -18,25 +18,19 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from ddp.message.pong_message import PongMessage
+from ddp.messages.pong_message import PongMessage
 from .subscriber import Subscriber
+from .topics import MessageReceivedPing, MessageSendPong
 
 __all__ = ['Ponger']
 
 
-class Ponger(object):
+class Ponger(Subscriber):
     def __init__(self, board):
+        super(Ponger, self).__init__(board,
+                {MessageReceivedPing: self._on_ping})
         self._board = board
-        self._subscriber = Subscriber(board, {
-            ':message:received:ping': self._on_ping,
-        })
 
     def _on_ping(self, topic, message):
-        self._board.publish(':message:send:pong', PongMessage(id=message.id))
-
-    def enable(self):
-        self._subscriber.subscribe()
-
-    def disable(self):
-        self._subscriber.unsubscribe()
+        self._board.publish(MessageSendPong, PongMessage(id=message.id))
 

@@ -18,5 +18,6 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from .client import *
+from .ddp_client import *
+from .concurrent_ddp_client import *
 

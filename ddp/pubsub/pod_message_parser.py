@@ -19,32 +19,18 @@ from __future__ import division
 from __future__ import print_function
 
 from .subscriber import Subscriber
+from .topics import PodReceived, RawReceived
 
 __all__ = ['PodMessageParser']
 
 
-class PodMessageParser(object):
+class PodMessageParser(Subscriber):
     def __init__(self, board, parser):
+        super(PodMessageParser, self).__init__(board, {
+                RawReceived: self._on_received})
         self._board = board
         self._parser = parser
-        self._subscriber = Subscriber(board, {
-            ':raw:received': self._on_received,
-        })
 
     def _on_received(self, topic, raw):
-        try:
-            pod = self._parse(raw)
-        except Exception as error:
-            self._board.publish(':raw:error', raw, error)
-        else:
-            self._board.publish(':pod:received', pod)
-
-    def _parse(self, raw):
-        return self._parser.parse(raw)
-
-    def enable(self):
-        self._subscriber.subscribe()
-
-    def disable(self):
-        self._subscriber.unsubscribe()
+        self._board.publish(PodReceived, self._parser.parse(raw))
 

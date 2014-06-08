@@ -21,9 +21,10 @@ from __future__ import print_function
 
 from setuptools import setup
 
+
 setup(
     name='pyddp',
-    version='0.2.2',
+    version='0.3.0',
     description='Distributed Data Protocol (DDP)',
     author='Peter Sutton',
     author_email='foxxy@foxdogstudios.com',
@@ -31,17 +32,19 @@ setup(
     license='Apache License v2.0',
     packages=[
         'ddp',
-        'ddp.connection',
-        'ddp.message',
-        'ddp.message.client',
-        'ddp.message.server',
+        'ddp.messages',
+        'ddp.messages.client',
+        'ddp.messages.server',
         'ddp.pod',
         'ddp.pubsub',
     ],
     package_data={
-        '': ['LICENSE.txt']
+        '': ['LICENSE.txt'],
     },
-    install_requires=['ws4py'],
+    install_requires=[
+        'autobahn[asyncio,accelerate]',
+        'trollius',
+    ],
     test_suite='tests',
     classifiers=[
         'Development Status :: 1 - Planning',

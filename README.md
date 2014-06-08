@@ -13,28 +13,35 @@ This library is still in the planning stage. If you use
 it, please use a specific version, e.g.., in your ``requirements.txt`` add the line;
 
 ```
-pyddp==0.2.2
+pyddp==0.3.0
 ```
 
 
-__Connect to a DDP server__ (e.g., a Meteor server)
+__Connect to a Meteor DDP server__
 
   ```Python
   # Import the DDP package.
   import ddp
-  
-  # Create a client, passing the host and port of the server.
-  client = ddp.DdpClient('127.0.0.1:3000')
-  
-  # Once enabled, the client will maintain a connection to the server.
-  client.enable()
+
+  # Create a client, passing the URL of the server.
+  client = ddp.ConcurrentDDPClient('ws://127.0.0.1:3000/websocket')
+
+  # Once started, the client will maintain a connection to the server.
+  client.start()
+
+  # ... Do something with it ...
+
+  # Ask the client to stop and wait for it to do so.
+  client.stop()
+  client.join()
+
   ```
-  
-  
+
+
 __Call a method__
 
   Assume your Meteor server has the following method.
-  
+
   ```JavaScript
   Meteor.methods({
     upper: function (text) {
@@ -43,27 +50,28 @@ __Call a method__
     }
   });
   ```
-  
+
   ```Python
   # The method is executed asynchronously.
-  future = client.call('upper', 'Hello, World1')
-  
+  future = client.call('upper', 'Hello, World!')
+
   # ... Do something else ...
-  
+
   # Block until the result message is received.
   result_message = future.get()
-  
+
   # Check if an error occured else print the result.
   if result_message.has_error():
     print result_message.error
   else:
     print result_message.result
-    
+
   ```
 
 __Automatic reconnection__
 
-If the connection to the server goes down, the client automatically attempts to reconnect.
+If the connection to the server goes down, the client automatically attempts to
+reconnect.
 
 
 __Ponger__
@@ -71,18 +79,23 @@ __Ponger__
 Automatically responds to pings from the server.
 
 
+__Outbox__
+
+Call a method while the client was not connected? Do not fear, for pyddp's
+outbox will store the message until there is a connection.
+
+
 __Debugging__
 
   ```Python
-  client = ddp.DdpClient('127.0.0.1:3000', logging=True)
+  ddp.ConcurrentDDPClient(url, debug=True)
   ```
 
 
-__Coming soon__ (i.e., not implemented)
+__Not implemented__
 
 *   Automatic resend after reconnection
 *   DDP server
-*   Outboxing
 *   Random seeds
 *   Sensible reconnection delay (i.e. exponential back-off)
 *   Subscriptions
@@ -97,43 +110,6 @@ $ pip install pyddp
 ```
 
 
-## Get started
-
-1. Create and activate a Python 2.7 [virtualenv][virtualenv].
-
-    ```Shell
-    $ virtualenv -p python2.7 venv
-    $ . venv/bin/activate
-    ```
-
-2. Install dependencies using `pip`.
-
-    ```Shell
-    $ pip install -r requirements.txt
-    ```
-
-3. Check that everything is works.
-
-    ```Shell
-    $ nosetests
-    ```
-
-3. Install [Meteor][meteor] and run the example Meteor project.
-
-    ```Shell
-    $ cd example/meteor
-    $ meteor
-    ```
-
-4. In another terminal, activate the virtualenv (see step 1) and run the example
-   script.
-
-    ```Shell
-    $ PYTHONPATH=. python example/example.py
-    Result: HELLO, WORLD!
-    ```
-
-
 ## Links
 
 *   [Continuous integration][travisci]
@@ -145,7 +121,7 @@ $ pip install pyddp
 [downloads badge]: https://pypip.in/download/pyddp/badge.svg "Downloads"
 [egg badge]: https://pypip.in/egg/pyddp/badge.svg "Egg Status"
 [license badge]: https://pypip.in/license/pyddp/badge.svg "License"
-[travisci]:https://travis-ci.org/foxdog-studios/pyddp "Build Status"
+[travisci]:https://travis-ci.org/foxdog-studios/pyddp "Continuous Integration"
 [travisci badge]: https://travis-ci.org/foxdog-studios/pyddp.svg "Build Status"
 [meteor]: https://www.meteor.com/ "Meteor"
 [pypi]: https://pypi.python.org/pypi/pyddp/ "pydpp on PyPI"
