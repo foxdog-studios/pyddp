@@ -39,6 +39,10 @@ class ConnectMessageTestCase(unittest.TestCase):
         self.assertNotEqual(m1, m3)
         self.assertNotEqual(m1, object())
 
+    def test_invalid_support(self):
+        with self.assertRaises(ValueError):
+            ConnectMessage(self.version, support=[])
+
     def test_str(self):
         m1 = ConnectMessage(self.version, support=self.support,
                             session=self.session)
@@ -51,27 +55,10 @@ class ConnectMessageTestCase(unittest.TestCase):
         m2 = eval(repr(m1))
         self.assertEqual(m1, m2)
 
-    def test_optimize_with_support(self):
-        message = ConnectMessage(self.version, support=self.support,
-                                 session=self.session)
-        optimized = message.optimize()
-        self.assertEqual(optimized.version, message.version)
-        self.assertEqual(optimized.support, self.support_optimized)
-        self.assertEqual(optimized.session, self.session)
-
-    def test_optimize_without_support(self):
-        message = ConnectMessage(self.version, support=[self.version],
-                                 session=self.session)
-        optimized = message.optimize()
-        self.assertEqual(optimized.version, message.version)
-        self.assertFalse(optimized.has_support())
-        self.assertEqual(optimized.session, message.session)
-
-    def test_with_suport_with_session(self):
+    def test_with_support_with_session(self):
         message = ConnectMessage(self.version, support=self.support,
                                  session=self.session)
         self.assertEqual(message.version, self.version)
-        self.assertTrue(message.has_support())
         self.assertEqual(message.support, self.support)
         self.assertTrue(message.has_session())
         self.assertEqual(message.session, self.session)
@@ -79,7 +66,6 @@ class ConnectMessageTestCase(unittest.TestCase):
     def test_with_support_without_session(self):
         message = ConnectMessage(self.version, support=self.support)
         self.assertEqual(message.version, self.version)
-        self.assertTrue(message.has_support())
         self.assertEqual(message.support, self.support)
         self.assertFalse(message.has_session())
         self.assertIsNone(message.session)
@@ -87,16 +73,14 @@ class ConnectMessageTestCase(unittest.TestCase):
     def test_without_support_with_session(self):
         message = ConnectMessage(self.version, session=self.session)
         self.assertEqual(message.version, self.version)
-        self.assertFalse(message.has_support())
-        self.assertIsNone(message.support)
+        self.assertEqual(message.support, [self.version])
         self.assertTrue(message.has_session())
         self.assertEqual(message.session, self.session)
 
     def test_without_support_without_session(self):
         message = ConnectMessage(self.version)
         self.assertEqual(message.version, self.version)
-        self.assertFalse(message.has_support())
-        self.assertIsNone(message.support)
+        self.assertEqual(message.support, [self.version])
         self.assertFalse(message.has_session())
         self.assertIsNone(message.session)
 

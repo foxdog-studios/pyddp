@@ -20,17 +20,22 @@ from __future__ import print_function
 
 from copy import copy
 
+from ddp.utils import default
 from .client_message import ClientMessage
 
-__all__ = ["ConnectMessage"]
+
+__all__ = ['ConnectMessage']
 
 
 class ConnectMessage(ClientMessage):
     def __init__(self, version, support=None, session=None):
         super(ConnectMessage, self).__init__()
         self._version = version
-        self._support = copy(support)
+        self._support = default(support, [version])
         self._session = session
+
+        if self._version not in self._support:
+            raise ValueError('support must contain version')
 
     def __eq__(self, other):
         if isinstance(other, ConnectMessage):
@@ -57,29 +62,6 @@ class ConnectMessage(ClientMessage):
     def session(self):
         return self._session
 
-    def has_support(self):
-        return self._support is not None
-
     def has_session(self):
         return self._session is not None
-
-    def optimize(self):
-        support = self._support
-
-        if support is not None:
-            support = copy(support)
-
-            # It appears that the preferred version does not need to be
-            # in the list of supported version.
-            if self._version in support:
-                support.remove(self._version)
-
-            # Also, it appears that support can be omitted if empty.
-            if not support:
-                support = None
-
-        optimized = type(self)(self._version, support=support,
-                               session=self._session)
-
-        return super(ConnectMessage, optimized).optimize()
 

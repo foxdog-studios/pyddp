@@ -43,7 +43,7 @@ setup(
     },
     install_requires=[
         'autobahn[asyncio,accelerate]',
-        'trollius',
+        'trollius==0.3',
     ],
     test_suite='tests',
     classifiers=[

@@ -29,8 +29,7 @@ class ConnectMessageSerializer(ClientMessageSerializer):
 
     def serialize_fields(self, message):
         fields = {'version': message.version}
-        if message.has_support():
-            fields['support'] = message.support
+        fields['support'] = message.support
         if message.has_session():
             fields['session'] = message.session
         return fields
