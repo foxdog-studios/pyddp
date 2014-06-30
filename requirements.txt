@@ -1,11 +1,13 @@
+# Install dependencies
+wheel
+
 # Dependencies
 autobahn[asyncio,accelerate]
-trollius
+trollius==0.3
 
 # Development dependencies
 Sphinx
 coverage
 nose
 twine
-wheel
 

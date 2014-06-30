@@ -50,12 +50,13 @@ class ConnectMessageSerializerTestCase(unittest.TestCase):
     def test_without_support_with_session(self):
         message = ConnectMessage(self.version, session=self.session)
         expected = {'msg': 'connect', 'version': self.version,
-                    'session': self.session}
+                    'support': [self.version], 'session': self.session}
         pod = self.serializer.serialize(message)
         self.assertEqual(pod, expected)
 
     def test_without_support_without_session(self):
         message = ConnectMessage(self.version)
         pod = self.serializer.serialize(message)
-        self.assertEqual(pod, {'msg': 'connect', 'version': self.version})
+        self.assertEqual(pod, {'msg': 'connect', 'version': self.version,
+                               'support': [self.version]})
 

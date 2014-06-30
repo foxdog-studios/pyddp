@@ -24,7 +24,7 @@ from setuptools import setup
 
 setup(
     name='pyddp',
-    version='0.3.0',
+    version='0.3.1',
     description='Distributed Data Protocol (DDP)',
     author='Peter Sutton',
     author_email='foxxy@foxdogstudios.com',
@@ -43,7 +43,7 @@ setup(
     },
     install_requires=[
         'autobahn[asyncio,accelerate]',
-        'trollius',
+        'trollius==0.3',
     ],
     test_suite='tests',
     classifiers=[

@@ -13,7 +13,7 @@ This library is still in the planning stage. If you use
 it, please use a specific version, e.g.., in your ``requirements.txt`` add the line;
 
 ```
-pyddp==0.3.0
+pyddp==0.3.1
 ```
 
 
