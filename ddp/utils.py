@@ -26,15 +26,12 @@ __all__ = ['default', 'ensure_asyncio']
 
 
 def default(obj, value=None, factory=None):
-    def raise_error():
-        raise ValueType('value or factory must be given')
+    if (value is None and factory is None) or \
+            (value is not None and factory is not None):
+        raise ValueError('value or factory must be given')
     if obj is None:
         if value is None:
-            if factory is None:
-                raise_error()
             return factory()
-        if factory is not None:
-            raise_error()
         return value
     return obj
 
