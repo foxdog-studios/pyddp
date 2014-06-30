@@ -12,7 +12,6 @@ setopt NO_UNSET
 python setup.py \
     clean       \
     sdist       \
-    bdist_egg   \
     bdist_wheel \
     check
 
