@@ -109,6 +109,27 @@ Install via `pip`
 $ pip install pyddp
 ```
 
+## Documentation
+
+### ddp.pubsub.future.Future
+
+```Python
+from ddp.pubsub.future import Future
+future = Future()
+
+# Wait for result forever (interruptable).
+result = future.get()
+
+
+# Wait for result for at most 1 second (interruptable).
+from ddp.pubsub.timeout_error import TimeoutError
+
+try:
+    result = future.get(timeout=1)
+except TimeoutError:
+    print 'Took too long'
+```
+
 
 ## Links
 
