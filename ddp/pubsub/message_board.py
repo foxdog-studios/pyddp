@@ -42,7 +42,8 @@ class MessageBoard(object):
     def subscribe(self, topic, subscriber):
         if topic not in self._subscribers:
             self._subscribers[topic] = []
-        self._subscribers[topic].append(subscriber)
+        if subscriber not in self._subscribers[topic]:
+            self._subscribers[topic].append(subscriber)
 
     def unsubscribe(self, topic, subscriber):
         has_subscribers = topic in self._subscribers
