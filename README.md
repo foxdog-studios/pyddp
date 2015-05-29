@@ -10,11 +10,18 @@
 __Warning__
 
 This library is still in the planning stage. If you use
-it, please use a specific version, e.g.., in your ``requirements.txt`` add the line;
+it, please use a specific version, e.g.., in your ``requirements.txt`` add the
+line;
 
 ```
 pyddp==0.3.1
 ```
+
+I (well, Foxdog Studios) improve this library on an as-needed basis. That is,
+I add something when we (Foxdog Studios) require it. If you'd like a feature,
+create an issue. The advantage of this is that we use every feature (in our
+stage show) and so it gets tested regularly. I've kept the API very thin, the
+feature you want might already be supported and I'll just expose it nicely.
 
 
 __Connect to a Meteor DDP server__
@@ -107,6 +114,27 @@ Install via `pip`
 
 ```Shell
 $ pip install pyddp
+```
+
+## Documentation
+
+### ddp.pubsub.future.Future
+
+```Python
+from ddp.pubsub.future import Future
+future = Future()
+
+# Wait for result forever (interruptable).
+result = future.get()
+
+
+# Wait for result for at most 1 second (interruptable).
+from ddp.pubsub.timeout_error import TimeoutError
+
+try:
+    result = future.get(timeout=1)
+except TimeoutError:
+    print 'Took too long'
 ```
 
 

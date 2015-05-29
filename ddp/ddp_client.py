@@ -21,8 +21,6 @@ from __future__ import print_function
 from ddp.utils import ensure_asyncio
 ensure_asyncio()
 
-import asyncio
-
 from autobahn.asyncio.websocket import WebSocketClientFactory
 
 from ddp import pubsub
