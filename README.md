@@ -10,11 +10,11 @@
 __Warning__
 
 This library is still in the planning stage. If you use
-it, please use a specific version, e.g.., in your ``requirements.txt`` add the
+it, please use a specific version, e.g., in your `requirements.txt` add the
 line;
 
 ```
-pyddp==0.3.1
+pyddp==0.4.0
 ```
 
 I (well, Foxdog Studios) improve this library on an as-needed basis. That is,
@@ -156,4 +156,3 @@ except TimeoutError:
 [version badge]: https://pypip.in/version/pyddp/badge.svg "Latest Version"
 [virtualenv]: http://virtualenv.readthedocs.org/en/latest/ "virtualenv"
 [wheel badge]: https://pypip.in/wheel/pyddp/badge.svg "Wheel Status"
-
